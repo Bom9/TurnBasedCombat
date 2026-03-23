@@ -1,3 +1,4 @@
+package src;
 public abstract class Enemy extends Combatant {
     protected EnemyActionStrategy actionStrategy;
 
