@@ -1,4 +1,4 @@
-import java.util.List;
+//import java.util.List; //Note: uncomment this import when using
 public interface SpecialSkill extends Action {
     int getCooldownTimer();
     void reduceCooldown();
