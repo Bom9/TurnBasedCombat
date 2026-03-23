@@ -1,6 +1,7 @@
+package src;
 import java.util.List;
 public class LevelManager {
-    // private GameConfig difficulty; //Uncomment this declaration when using
+    private GameConfig difficulty;
     protected SpawnConfig easySpawnConfig;
     protected SpawnConfig mediumSpawnConfig;
     protected SpawnConfig hardSpawnConfig;
