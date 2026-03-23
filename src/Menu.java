@@ -1,9 +1,10 @@
+package src;
 import java.util.List;
-// import java.util.Scanner;    // Note: uncomment this import when using
+import java.util.Scanner;
 public class Menu {
-    // Note: uncomment these two variable when using
-    // private Scanner scanner;
-    // private CombatLogger combatLogger;
+
+    private Scanner scanner;
+    private CombatLogger combatLogger;
 
     public String promptClassSelection() { return null; }
     public int promptDifficultySelection() { return 0; }

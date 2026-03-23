@@ -1,3 +1,4 @@
+package src;
 import java.util.List;
 public abstract class Combatant {
     protected int maxHp;

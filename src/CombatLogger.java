@@ -1,3 +1,4 @@
+package src;
 public class CombatLogger {
     public void log(String message) {}
     public void logAction(Action action, Combatant user) {}

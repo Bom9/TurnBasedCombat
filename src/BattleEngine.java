@@ -1,13 +1,15 @@
+package src;
+
 import java.util.List;
 public class BattleEngine {
-    // Note: Uncomment the following variable when using
-    // private List<Combatant> players;
-    // private List<Combatant> enemies;
-    // private TurnOrderStrategy turnOrder;
-    // private LevelManager levelManager;
-    // private Menu menu;
-    // private int currentRound;
-    // private boolean gameOver;
+
+     private List<Combatant> players;
+     private List<Combatant> enemies;
+     private TurnOrderStrategy turnOrder;
+     private LevelManager levelManager;
+     private Menu menu;
+     private int currentRound;
+     private boolean gameOver;
 
     public void startGame() {}
     public void executeRound() {}

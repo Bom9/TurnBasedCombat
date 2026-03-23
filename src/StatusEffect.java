@@ -1,3 +1,4 @@
+package src;
 public abstract class StatusEffect {
     protected String name;
     protected int durationTurns;
