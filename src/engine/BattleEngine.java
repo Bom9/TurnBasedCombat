@@ -1,4 +1,8 @@
-package src;
+package src.engine;
+
+import src.actions.Action;
+import src.character.Combatant;
+import src.ui.Menu;
 
 import java.util.List;
 public class BattleEngine {

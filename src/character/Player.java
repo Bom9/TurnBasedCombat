@@ -1,4 +1,8 @@
-package src;
+package src.character;
+
+import src.items.Item;
+import src.actions.SpecialSkill;
+
 public abstract class Player extends Combatant {
     protected SpecialSkill specialSkill;
     protected String classType;
