@@ -1,4 +1,6 @@
-package src;
+package src.actions;
+
+import src.character.Combatant;
 
 import java.util.List;
 public interface Action {

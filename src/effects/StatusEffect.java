@@ -1,4 +1,7 @@
-package src;
+package src.effects;
+
+import src.character.Combatant;
+
 public abstract class StatusEffect {
     protected String name;
     protected int durationTurns;
