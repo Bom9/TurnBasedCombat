@@ -1,5 +1,5 @@
-package src;
-import java.util.List;
+package src.actions;
+
 public interface SpecialSkill extends Action {
     int getCooldownTimer();
     void reduceCooldown();

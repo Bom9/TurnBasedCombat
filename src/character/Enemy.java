@@ -1,4 +1,8 @@
-package src;
+package src.character;
+
+import src.actions.Action;
+import src.actions.EnemyActionStrategy;
+
 public abstract class Enemy extends Combatant {
     protected EnemyActionStrategy actionStrategy;
 
