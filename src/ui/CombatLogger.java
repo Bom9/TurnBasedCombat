@@ -1,4 +1,9 @@
-package src;
+package src.ui;
+
+import src.effects.StatusEffect;
+import src.actions.Action;
+import src.character.Combatant;
+
 public class CombatLogger {
     public void log(String message) {}
     public void logAction(Action action, Combatant user) {}

@@ -1,4 +1,7 @@
-package src;
+package src.character;
+import src.items.Item;
+import src.effects.StatusEffect;
+
 import java.util.List;
 public abstract class Combatant {
     protected int maxHp;
