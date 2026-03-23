@@ -1,3 +1,4 @@
+package src;
 public abstract class Player extends Combatant {
     protected SpecialSkill specialSkill;
     protected String classType;
