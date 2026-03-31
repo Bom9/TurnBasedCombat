@@ -1,8 +1,9 @@
 package src.engine;
+
 import src.character.Combatant;
 import src.ui.GameConfig;
-
 import java.util.List;
+
 public class LevelManager {
     private GameConfig difficulty;
     protected SpawnConfig easySpawnConfig;
