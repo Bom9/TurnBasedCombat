@@ -6,7 +6,7 @@ import src.items.Item;
 
 import java.util.List;
 import java.util.Scanner;
-import java.util.InputMismatchException;
+import java.util.InputMismatchException; //easier to try check.
 public class Menu {
 
     private final Scanner scanner;
@@ -61,8 +61,13 @@ public class Menu {
         return 1;
     }
 
-    //The reason why Player player is accepted evn though each class is different is as all of them are child classes of Player class.
-    //Hence, it is allowed that Player player works, as all users will automatically have the player methods, regardless of type.
+    /*
+    The reason why Player player is accepted evn though each class
+    is different is as all of them are child classes of Player class.
+    Hence, it is allowed that Player player works, as all users will
+    automatically have the player methods, regardless of type.
+     */
+
     public Item promptItemSelection(Player player)
     {
         List <Item> inventory = player.getInventory(); //I am getting from the Player class
@@ -128,10 +133,14 @@ public class Menu {
         return null;
     }
 
+    /*
+    helper class for finding input (used it as it is easy to put try/except outside for code checking)
+    This is useful as every selection class has the checking, so putting a class for checking allows
+     it to be called easily
+    reusing one class of code
+    */
 
-    //helper class for finding input (used it as it is easy to put try/except outside for code checking)
-    //This is useful as every selection class has the checking, so putting a class for checking allows it to be called easily
-    //reusing one class of code
+
     private int getValidInput()
     {
         try {

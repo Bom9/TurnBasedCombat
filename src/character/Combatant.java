@@ -27,4 +27,5 @@ public abstract class Combatant {
     public List<Item> getInventory() { return null; }
     public void addEffect(StatusEffect effect) {}
     public void removeEffect(StatusEffect effect) {}
+    public String getName() {}
 }
