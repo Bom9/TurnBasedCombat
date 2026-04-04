@@ -1,11 +1,17 @@
 package src.engine;
 
-import src.actions.Action;
-import src.character.Combatant;
-import src.level.LevelManager;
-import src.ui.Menu;
+import src.actions.*;
+import src.character.*;
+import src.level.*;
+import src.ui.*;
+import src.items.*;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+/*
+    the control class that manages the gaming logic, coordinating all other classes
+ */
 public class BattleEngine {
 
      private List<Combatant> players;
