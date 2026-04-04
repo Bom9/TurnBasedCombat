@@ -14,14 +14,9 @@ import java.util.stream.Collectors;
  */
 public class BattleEngine {
 
-    private final TurnOrderStrategy turnOrderStrategy = new TurnOrderStrategy() {
-        @Override
-        public List<Combatant> sortCombatants(List<Combatant> combatants) {
-            return List.of();
-        }
-    };
+    private final TurnOrderStrategy turnOrderStrategy;
     private final BattleDisplayUI display;
-    private GameInputUI input;
+    private final GameInputUI input;
 
     private Player player;
     private List<Enemy> activeEnemies;
@@ -33,6 +28,13 @@ public class BattleEngine {
     private BasicAttack basicAttack = new BasicAttack();
     private Defend defendAction = new Defend();
 
+    public BattleEngine(TurnOrderStrategy turnOrderStrategy,
+                        BattleDisplayUI display,
+                        GameInputUI input){
+        this.turnOrderStrategy = turnOrderStrategy;
+        this.display = display;
+        this.input = input;
+    }
     public void startGame() {}
     public void executeRound() {}
     public void processAction(Action action, Combatant user, List<Combatant> targets) {}
