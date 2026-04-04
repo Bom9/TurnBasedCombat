@@ -11,9 +11,9 @@ public class LevelManager {
     //based on the input, initialise the respective SpawnConfig
     public SpawnConfig buildSpawnConfig(DifficultyLevel difficulty){
         return switch(difficulty){
-            case EASY : buildEasy();
-            case MEDIUM : buildMedium();
-            case HARD : buildHard();
+            case EASY -> buildEasy();
+            case MEDIUM -> buildMedium();
+            case HARD -> buildHard();
         };
     }
     /*
@@ -50,9 +50,9 @@ public class LevelManager {
     //Display the description of each difficulty level
     public String describeSpawn(DifficultyLevel difficulty){
         return switch(difficulty){
-            case EASY : "Initial Spawn: 3 Goblins";
-            case MEDIUM : "Inital Spawn: 1 Goblin + 1 Wolf | Backup Spawn: 2 Wolfs";
-            case HARD : "Initial Spawn: 2 Goblins | Backup: 1 Goblin = 2 Wolfs";
+            case EASY -> "Initial Spawn: 3 Goblins";
+            case MEDIUM -> "Inital Spawn: 1 Goblin + 1 Wolf | Backup Spawn: 2 Wolfs";
+            case HARD -> "Initial Spawn: 2 Goblins | Backup: 1 Goblin = 2 Wolfs";
         };
     }
     public List<Combatant> getInitialWave() { return null; }
