@@ -1,4 +1,4 @@
-package src.engine;
+package src.level;
 public class SpawnConfig {
     public int goblinCount;
     public int wolfCount;

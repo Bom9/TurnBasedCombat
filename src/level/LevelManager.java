@@ -1,4 +1,4 @@
-package src.engine;
+package src.level;
 
 import src.character.Combatant;
 import src.ui.GameConfig;
