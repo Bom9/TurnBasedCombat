@@ -15,8 +15,10 @@ public class SpawnConfig {
         this.initalSpawn = initialSpawn
         this method is acceptable but it holds the reference only, might be modified
          */
-        this.initialSpawn = List.copyOf(initialSpawn); // List.copyOf return a read only list
-        this.backupSpawn = List.copyOf(backupSpawn);
+//        this.initialSpawn = List.copyOf(initialSpawn); // List.copyOf return a read only list
+//        this.backupSpawn = List.copyOf(backupSpawn);
+        this.initialSpawn = initialSpawn;
+        this.backupSpawn = backupSpawn;
     }
     //returning the constructed list
     public List<Enemy> getInitialSpawn(){
