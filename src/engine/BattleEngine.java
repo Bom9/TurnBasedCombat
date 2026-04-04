@@ -35,6 +35,18 @@ public class BattleEngine {
         this.display = display;
         this.input = input;
     }
+    /*
+        the main method to execute the game with the selected player and spawn
+        calling other methods to make this main method short and clean
+        return true or false to indicate play win or lose
+     */
+    public boolean startBattle(Player player, SpawnConfig spawnConfig){
+        this.player = player;
+        this.activeEnemies = new ArrayList<>(spawnConfig.getInitialSpawn());
+        this.backupEnemies = new ArrayList<>(spawnConfig.getBackupSpawn());
+        this.backupSpawned = false;
+        this.round = 0;
+    }
     public void startGame() {}
     public void executeRound() {}
     public void processAction(Action action, Combatant user, List<Combatant> targets) {}
