@@ -30,6 +30,7 @@ public class ConsoleGameInput {
         return (choice == 1) ? new Warrior() :  new Wizard();
     }
 
+    @Override
     public List<Item> promptItemSelection(){
         System.out.println("\n===================================================");
         System.out.println("              CHOOSE YOUR 2 ITEMS                  ");
@@ -48,8 +49,28 @@ public class ConsoleGameInput {
         return items;
     }
 
+    @Override
     public DifficultyLevel promptDifficultySelection(){
+        System.out.println("\n====================================================");
+        System.out.println("              CHOOSE DIFFICULTY                    ");
+        System.out.println("====================================================");
+        System.out.println("  [1] Easy   – 3 Goblins");
+        System.out.println("  [2] Medium – 1 Goblin + 1 Wolf | Backup: 2 Wolves");
+        System.out.println("  [3] Hard   – 2 Goblins         | Backup: 1 Goblin + 2 Wolves");
 
+        System.out.println("\n  Enemy Attributes:");
+        System.out.printf("    Goblin │ HP:%-3d ATK:%-3d DEF:%-3d SPD:%-3d%n",
+                Goblin.BASE_HP, Goblin.BASE_ATK, Goblin.BASE_DEF, Goblin.BASE_SPD);
+        System.out.printf("    Wolf   │ HP:%-3d ATK:%-3d DEF:%-3d SPD:%-3d%n",
+                Wolf.BASE_HP, Wolf.BASE_ATK, Wolf.BASE_DEF, Wolf.BASE_SPD);
+        System.out.println();
+
+        int choice = readInt("Enter choice (1-3): ", 1, 3);
+        return switch (choice) {
+            case 1  -> DifficultyLevel.EASY;
+            case 2  -> DifficultyLevel.MEDIUM;
+            default -> DifficultyLevel.HARD;
+        };
     }
 
     public Action promptActionChoice(Player player, List<Action> availableActions) {
@@ -64,8 +85,16 @@ public class ConsoleGameInput {
         return 0;
     }
 
+    @Override
     public int promptPostGameMenu() {
-        return 0;
+        System.out.println("  ─────────────────────────────────────────");
+        System.out.println("    What would you like to do next?        ");
+        System.out.println("    [1] Replay with the same settings      ");
+        System.out.println("    [2] Start a new game                   ");
+        System.out.println("    [3] Exit                               ");
+        System.out.println("  ─────────────────────────────────────────");
+        return readInt("  Enter choice (1-3): ", 1, 3);
+    }
     }
 
     private int readInt(String prompt, int main, int max)
