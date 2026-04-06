@@ -31,11 +31,25 @@ public class ConsoleGameInput {
     }
 
     public List<Item> promptItemSelection(){
-        return Item;
+        System.out.println("\n===================================================");
+        System.out.println("              CHOOSE YOUR 2 ITEMS                  ");
+        System.out.println("  (duplicates allowed)                             ");
+        System.out.println("===================================================");
+        System.out.println("  [1] Potion      – Heal 100 HP (capped at max HP)");
+        System.out.println("  [2] Power Stone – Trigger Special Skill once for free");
+        System.out.println("  [3] Smoke Bomb  – Enemy attacks deal 0 damage for 2 turns");
+        System.out.println();
+
+        List<Item> items = new ArrayList<>();
+        for (int i = 1; i <= 2; i++) {
+            int choice = readInt("Select item " + i + " (1-3): ", 1, 3);
+            items.add(createItem(choice));
+        }
+        return items;
     }
 
     public DifficultyLevel promptDifficultySelection(){
-        return;
+
     }
 
     public Action promptActionChoice(Player player, List<Action> availableActions) {
@@ -69,6 +83,14 @@ public class ConsoleGameInput {
         }
     }
 
+    private Item createItem(int choice) {
+        return switch (choice) {
+            case 1 -> new Potion();
+            case 2 -> new PoweStone();
+            default -> new SmokeBomb();
+        };
+        }
+    }
 
 
 }
