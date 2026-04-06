@@ -62,6 +62,4 @@ public class ConsoleBattleDisplay implements BattleDisplayUI{
     public void displaySeparator() {
         System.out.println("  ─────────────────────────────────────────────────────");
     }
-
-
 }
