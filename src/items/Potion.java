@@ -3,6 +3,7 @@ package src.items;
 import src.character.Combatant;
 
 public class Potion implements Item {
+
     private static final int HEAL_AMOUNT = 100;
     private boolean used = false;
 
@@ -18,6 +19,7 @@ public class Potion implements Item {
 
     @Override
     public void use(Combatant user, Combatant target) {
+
         if (used) {
             System.out.println("Potion has already been used.");
             return;
@@ -47,7 +49,6 @@ public class Potion implements Item {
         );
     }
 }
-
 
 
 
