@@ -24,20 +24,31 @@ public class Potion implements Item {
         }
 
         if (target == null) {
-            System.out.println("No target selected for Potion.");
+            System.out.println("No target selected.");
             return;
         }
 
-        int currentHp = target.getHp();
+        if (!target.isAlive()) {
+            System.out.println(target.getName() + " is defeated and cannot be healed.");
+            return;
+        }
+
+        int beforeHP = target.getHP();
         target.heal(HEAL_AMOUNT);
-        int healedAmount = target.getHp() - currentHp;
+        int afterHP = target.getHP();
+        int healedAmount = afterHP - beforeHP;
 
         used = true;
 
-        System.out.println("Potion used. Restored " + healedAmount + " HP.");
-    }
-
-    public boolean isUsed() {
-        return used;
+        System.out.println(
+            user.getName() + " used Potion on " + target.getName() +
+            ". HP: " + beforeHP + " -> " + afterHP +
+            " (+" + healedAmount + ")"
+        );
     }
 }
+
+
+
+
+
