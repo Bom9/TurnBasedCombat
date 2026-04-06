@@ -17,13 +17,13 @@ public abstract class Combatant {
     protected final List<StatusEffect> activeEffects;
 
     protected Combatant(String name, int maxHP, int atk, int def, int spd) {
-        this.name         = name;
-        this.maxHP        = maxHP;
-        this.hp           = maxHP;
-        this.atk          = atk;
-        this.def          = def;
-        this.spd          = spd;
-        this.isAlive      = true;
+        this.name = name;
+        this.maxHP = maxHP;
+        this.hp = maxHP;
+        this.atk = atk;
+        this.def = def;
+        this.spd = spd;
+        this.isAlive = true;
         this.activeEffects = new ArrayList<>();
     }
 
@@ -76,21 +76,21 @@ public abstract class Combatant {
 
     public int getEffectiveDef() {
         int bonus = activeEffects.stream()
-                                  .mapToInt(StatusEffect::getDefenseBonus)
-                                  .sum();
+        .mapToInt(StatusEffect::getDefenseBonus)
+        .sum();
         return def + bonus;
     }
     public boolean isStunned() {
         return activeEffects.stream().anyMatch(StatusEffect::isTurnBlocking);
     }
 
-    public String             getName()         { return name;         }
-    public int                getMaxHP()        { return maxHP;        }
-    public int                getHP()           { return hp;           }
-    public int                getAtk()          { return atk;          }
-    public int                getDef()          { return def;          }
-    public int                getSpd()          { return spd;          }
-    public boolean            isAlive()         { return isAlive;      }
+    public String getName() {return name;}
+    public int getMaxHP(){ return maxHP;}
+    public int getHP(){ return hp;}
+    public int getAtk(){ return atk;}
+    public int getDef(){ return def;}
+    public int getSpd(){ return spd;}
+    public boolean isAlive(){ return isAlive;}
     public List<StatusEffect> getActiveEffects(){ return activeEffects; }
 
     public void setAtk(int atk) { this.atk = atk; }
