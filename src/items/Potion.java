@@ -20,25 +20,21 @@ public class Potion implements Item {
     @Override
     public void use(Combatant user, Combatant target) {
 
-        // Already used
         if (used) {
             System.out.println("Potion has already been used.");
             return;
         }
 
-        // No target
         if (target == null) {
             System.out.println("No target selected.");
             return;
         }
 
-        // Target is dead
         if (!target.isAlive()) {
             System.out.println(target.getName() + " is defeated and cannot be healed.");
             return;
         }
 
-        // Healing logic
         int beforeHP = target.getHP();
         target.heal(HEAL_AMOUNT);
         int afterHP = target.getHP();
@@ -46,15 +42,13 @@ public class Potion implements Item {
 
         used = true;
 
-        // Output
         System.out.println(
             user.getName() + " used Potion on " + target.getName() +
             ". HP: " + beforeHP + " -> " + afterHP +
             " (+" + healedAmount + ")"
         );
-    }
+    } 
 }
-
 
 
 
