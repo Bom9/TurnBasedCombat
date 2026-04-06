@@ -82,7 +82,12 @@ public class ConsoleGameInput {
     }
 
     public int promptItemSelection(Player player) {
-        return 0;
+        List<item.item> inventory = player.getInventory();
+        System.out,println("\n Select item to use:");
+        for (int i = 0; i < inventory.size(); i++){
+            System.out.printf("    [%d] %s - %s%n", i+1, inventory.get(i).getName(), inventory.get(i).getDescription());
+        }
+        return readInt("  Enter choice (1-" + inventory.size() + "): ", 1, inventory.size())-1;
     }
 
     @Override
@@ -97,7 +102,7 @@ public class ConsoleGameInput {
     }
     }
 
-    private int readInt(String prompt, int main, int max)
+    private int readInt(String prompt, int min, int max)
     {
         while (true) {
             System.out.print(prompt);
