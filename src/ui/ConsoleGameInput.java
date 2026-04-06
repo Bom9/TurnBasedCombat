@@ -29,4 +29,46 @@ public class ConsoleGameInput {
         int choice = readInt("Enter choice (1-2):", 1, 2);
         return (choice == 1) ? new Warrior() :  new Wizard();
     }
+
+    public List<Item> promptItemSelection(){
+        return Item;
+    }
+
+    public DifficultyLevel promptDifficultySelection(){
+        return;
+    }
+
+    public Action promptActionChoice(Player player, List<Action> availableActions) {
+        return;
+    }
+
+    public Combatant promptTargetSelection(List<Combatant> enemies){
+        return enemies;
+    }
+
+    public int promptItemSelection(Player player) {
+        return 0;
+    }
+
+    public int promptPostGameMenu() {
+        return 0;
+    }
+
+    private int readInt(String prompt, int main, int max)
+    {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                String line = scanner.nextLine().trim();
+                int value = Integer.parseInt(line);
+                if (value >= min && value <= max) return value;
+                System.out.printf("  Please enter a number between %d and %d.%n", min, max);
+            } catch (NumberFormatException e) {
+                System.out.println("  Invalid Input - please enter a number.");
+            }
+        }
+    }
+
+
+
 }
