@@ -1,10 +1,11 @@
 package src.items;
 
 import src.character.Combatant;
-import src.effects.DefenseBoost;
+import src.effects.ArcaneBlastBuff;
 
 public class PowerStone implements Item {
-    private static final int BOOST_DURATION = 3;
+
+    private static final int DURATION = 3;
     private boolean used = false;
 
     @Override
@@ -14,32 +15,39 @@ public class PowerStone implements Item {
 
     @Override
     public String getDescription() {
-        return "Grants a temporary defense boost for " + BOOST_DURATION + " turns.";
+        return "Increases attack for a few turns.";
     }
 
     @Override
     public void use(Combatant user, Combatant target) {
+
         if (used) {
             System.out.println("Power Stone has already been used.");
             return;
         }
 
         if (target == null) {
-            System.out.println("No target selected for Power Stone.");
+            System.out.println("No target selected.");
             return;
         }
 
-        DefenseBoost effect = new DefenseBoost(BOOST_DURATION);
-        target.addEffect(effect);
-        effect.applyEffect(target);
+        if (!target.isAlive()) {
+            System.out.println(target.getName() + " is defeated and cannot be buffed.");
+            return;
+        }
 
-        System.out.println(target.getClass().getSimpleName()
-                + " used Power Stone and gained a defense boost!");
+        ArcaneBlastBuff buff = new ArcaneBlastBuff(DURATION);
+        target.addStatusEffect(buff);
 
         used = true;
-    }
 
-    public boolean isUsed() {
-        return used;
+        System.out.println(
+            user.getName() + " used Power Stone on " + target.getName() +
+            ". Attack increased for " + DURATION + " turns."
+        );
     }
 }
+
+    
+
+
