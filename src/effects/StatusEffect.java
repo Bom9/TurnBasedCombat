@@ -9,9 +9,22 @@ public abstract class StatusEffect {
 
     public abstract void applyEffect(Combatant target);
     public abstract void removeEffect(Combatant target);
-    
-    public void decrementDuration() {}
-    public boolean isExpired() { return false; }
-    public String getName() { return null; }
-    public int getDuration() { return 0; }
+
+    public void decrementDuration() {
+        if (currentDuration > 0) {
+            currentDuration--;
+        }
+    }
+
+    public boolean isExpired() {
+        return currentDuration <= 0;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getDuration() {
+        return currentDuration;
+    }
 }
