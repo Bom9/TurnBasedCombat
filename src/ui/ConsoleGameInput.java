@@ -3,6 +3,8 @@ import action.*;
 import entity.*;
 import item.*;
 import level.DifficultyLevel;
+import src.actions.SpecialSkill;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -74,11 +76,40 @@ public class ConsoleGameInput {
     }
 
     public Action promptActionChoice(Player player, List<Action> availableActions) {
-        return;
+        System.out.println("\n  Choose your action:");
+
+        for (int i = 0; i < availableActions.size(); i++){
+            Action a = availableActions.get(i);
+            String extra = (a instanceof SpecialSkill) ? " [READY]": "";
+            System.out.printf("    [%d] %s%s%n", i, i+1, a.getName(), extra);
+        }
+
+        if (!player.isSkillReady()){
+            System.out.printf("    [-] %s  (on cooldown - %d turn%s remaining)%n",
+                    player.getSpecialSkill().getName(),
+                    Player.getSkillCooldown(),
+                    player.getSkillCooldown() == 1 ? "": "s");
+        }
+
+        int choice = readInt("  Enter choice (1-" availableActions.size() + "):",
+                1, availableActions.size());
+        return availableActions.get(choice-1);
     }
 
+    @Override
     public Combatant promptTargetSelection(List<Combatant> enemies){
-        return enemies;
+        System.out.println("\n  Select target:");
+        for (int i = 0; i < enemies.size(); i++) {
+            Combatant e = enemies.get(i);
+            System.out.printf("    [%d] %s  HP: %d/%d%s%n",
+                    i + 1,
+                    e.getName(),
+                    e.getHP(),
+                    e.getMaxHP(),
+                    e.isStunned() ? " [STUNNED]" : "");
+        }
+        int choice = readInt("  Enter choice (1-" + enemies.size() + "): ", 1, enemies.size());
+        return enemies.get(choice - 1);
     }
 
     public int promptItemSelection(Player player) {
