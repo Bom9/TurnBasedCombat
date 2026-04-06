@@ -1,11 +1,9 @@
-# Branch: feature/combatant-hierarchy
+# Branch: feature/engine-and-ui
 
 ## Overview
-This branch contains the foundational character entities and the logic for calculating turn order based on speed.
+This branch orchestrates the main game loop, manages enemy spawn waves, and handles all Command Line Interface (CLI) inputs/outputs.
 
 ## Classes & Interfaces
-* **`Combatant` (Abstract):** The base class holding shared stats (HP, ATK, DEF, SPD).
-* **`Player` (Abstract):** Base class for user-controlled characters.
-* **`Enemy` (Abstract):** Base class for AI-controlled characters.
-* **Concrete Characters:** `Warrior`, `Wizard`, `Goblin`, `Wolf`.
-* **Turn Order:** `TurnOrderStrategy` (Interface), `SpeedBasedTurnOrder` (Concrete).
+* **`BattleEngine`:** The core controller that manages rounds, active combatants, and victory/defeat states.
+* **`UserInterface`:** Handles the CLI display, `Scanner` inputs, and separates visual text from core logic.
+* **`LevelManager`:** Stores the Easy/Medium/Hard configurations and handles the backup spawning logic.
