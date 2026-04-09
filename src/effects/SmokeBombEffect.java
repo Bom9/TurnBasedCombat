@@ -1,47 +1,27 @@
 package src.effects;
 
-import src.character.Combatant;
-import java.lang.reflect.Field;
+import src.entity.Combatant;
 
 public class SmokeBombEffect extends StatusEffect {
 
-    private static final int ATTACK_REDUCTION = 5;
+    private static final int DURATION = 2;
 
-    public SmokeBombEffect(int durationTurns) {
-        this.name = "Smoke Bomb";
-        this.durationTurns = durationTurns;
-        this.currentDuration = durationTurns;
+    public SmokeBombEffect() {
+        super("Smoke Bomb", DURATION);
     }
 
     @Override
-    public void applyEffect(Combatant target) {
-        try {
-            Field attackField = Combatant.class.getDeclaredField("attack");
-            attackField.setAccessible(true);
-
-            int currentAttack = attackField.getInt(target);
-            attackField.setInt(target, currentAttack - ATTACK_REDUCTION);
-
-            System.out.println(target.getClass().getSimpleName()
-                    + "'s attack reduced by " + ATTACK_REDUCTION + "!");
-        } catch (Exception e) {
-            System.out.println("Failed to apply Smoke Bomb effect.");
-        }
+    public void onApply(Combatant target) {
+        System.out.println(target.getName() + " is protected by Smoke Bomb! Enemy attacks will deal 0 damage this turn and the next turn.");
     }
 
     @Override
-    public void removeEffect(Combatant target) {
-        try {
-            Field attackField = Combatant.class.getDeclaredField("attack");
-            attackField.setAccessible(true);
+    public void onExpire(Combatant target) {
+        System.out.println("Smoke Bomb effect on " + target.getName() + " has expired.");
+    }
 
-            int currentAttack = attackField.getInt(target);
-            attackField.setInt(target, currentAttack + ATTACK_REDUCTION);
-
-            System.out.println(target.getClass().getSimpleName()
-                    + "'s attack has returned to normal.");
-        } catch (Exception e) {
-            System.out.println("Failed to remove Smoke Bomb effect.");
-        }
+    @Override
+    public boolean nullifiesEnemyDamage() {
+        return true;
     }
 }
