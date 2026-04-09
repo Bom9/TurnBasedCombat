@@ -1,7 +1,7 @@
 package src.character;
 import strategy.BasicEnemyStrategy;
 
-public class Goblin {
+public class Goblin extends Enemy{
 
     public static final int BASE_HP  = 55;
     public static final int BASE_ATK = 35;
