@@ -1,46 +1,33 @@
 package src.effects;
 
-import src.character.Combatant;
-import java.lang.reflect.Field;
+import src.entity.Combatant;
+import src.entity.Player;
+import src.entity.Wizard;
 
 public class ArcaneBlastBuff extends StatusEffect {
-    private static final int ATTACK_BONUS = 10;
 
-    public ArcaneBlastBuff(int durationTurns) {
-        this.name = "Arcane Blast Buff";
-        this.durationTurns = durationTurns;
-        this.currentDuration = durationTurns;
+    private static final int ATK_BONUS = 20;
+    private static final int DURATION = 3;
+
+    public ArcaneBlastBuff() {
+        super("Arcane Blast Buff", DURATION);
     }
 
     @Override
-    public void applyEffect(Combatant target) {
-        try {
-            Field attackField = Combatant.class.getDeclaredField("attack");
-            attackField.setAccessible(true);
-
-            int currentAttack = attackField.getInt(target);
-            attackField.setInt(target, currentAttack + ATTACK_BONUS);
-
-            System.out.println(target.getClass().getSimpleName()
-                    + " gains +" + ATTACK_BONUS + " attack.");
-        } catch (Exception e) {
-            System.out.println("Failed to apply Arcane Blast Buff.");
+    public void onApply(Combatant target) {
+        if (target instanceof Wizard) {
+            Wizard wizard = (Wizard) target;
+            wizard.addAtkBonus(ATK_BONUS);
+            System.out.println(wizard.getName() + " gains +" + ATK_BONUS + " ATK from Arcane Blast!");
         }
     }
 
     @Override
-    public void removeEffect(Combatant target) {
-        try {
-            Field attackField = Combatant.class.getDeclaredField("attack");
-            attackField.setAccessible(true);
-
-            int currentAttack = attackField.getInt(target);
-            attackField.setInt(target, currentAttack - ATTACK_BONUS);
-
-            System.out.println(target.getClass().getSimpleName()
-                    + "'s Arcane Blast Buff has worn off.");
-        } catch (Exception e) {
-            System.out.println("Failed to remove Arcane Blast Buff.");
+    public void onExpire(Combatant target) {
+        if (target instanceof Wizard) {
+            Wizard wizard = (Wizard) target;
+            wizard.addAtkBonus(-ATK_BONUS);
+            System.out.println(wizard.getName() + "'s Arcane Blast buff has expired.");
         }
     }
 }
