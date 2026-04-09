@@ -1,4 +1,4 @@
-package src.character;
+package src.entity;
 
 import action.ShieldBash;
 

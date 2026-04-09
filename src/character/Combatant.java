@@ -1,4 +1,4 @@
-package src.character;
+package src.entity;
 import src.items.Item;
 import src.effects.StatusEffect;
 
