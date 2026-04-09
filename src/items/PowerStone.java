@@ -1,11 +1,12 @@
 package src.items;
 
-import src.character.Combatant;
-import src.effects.ArcaneBlastBuff;
+import src.entity.Combatant;
+import src.entity.Player;
+
+import java.util.List;
 
 public class PowerStone implements Item {
 
-    private static final int DURATION = 3;
     private boolean used = false;
 
     @Override
@@ -15,36 +16,37 @@ public class PowerStone implements Item {
 
     @Override
     public String getDescription() {
-        return "Increases attack for a few turns.";
+        return "Trigger the special skill once without affecting cooldown.";
     }
 
     @Override
-    public void use(Combatant user, Combatant target) {
-
+    public void use(Combatant user, List<Combatant> targets) {
         if (used) {
             System.out.println("Power Stone has already been used.");
             return;
         }
 
-        if (target == null) {
-            System.out.println("No target selected.");
+        if (!(user instanceof Player player)) {
+            System.out.println("Only players can use Power Stone.");
             return;
         }
 
-        if (!target.isAlive()) {
-            System.out.println(target.getName() + " is defeated and cannot be buffed.");
+        if (!player.isAlive()) {
+            System.out.println(player.getName() + " is defeated and cannot use items.");
             return;
         }
 
-        ArcaneBlastBuff buff = new ArcaneBlastBuff(DURATION);
-        target.addStatusEffect(buff);
+        if (targets == null || targets.isEmpty()) {
+            System.out.println("No valid target(s) selected.");
+            return;
+        }
+
+        System.out.println(player.getName() + " used Power Stone!");
+        player.getSpecialSkill().execute(player, targets);
+
+        // IMPORTANT: do NOT change cooldown here
 
         used = true;
-
-        System.out.println(
-            user.getName() + " used Power Stone on " + target.getName() +
-            ". Attack increased for " + DURATION + " turns."
-        );
     }
 }
 
