@@ -1,10 +1,12 @@
 package src.items;
 
-import src.character.Combatant;
+import src.entity.Combatant;
 import src.effects.SmokeBombEffect;
 
+import java.util.List;
+
 public class SmokeBomb implements Item {
-    private static final int EFFECT_DURATION = 2;
+
     private boolean used = false;
 
     @Override
@@ -14,32 +16,29 @@ public class SmokeBomb implements Item {
 
     @Override
     public String getDescription() {
-        return "Reduces the target's attack temporarily for " + EFFECT_DURATION + " turns.";
+        return "Enemy attacks deal 0 damage this turn and the next turn.";
     }
 
     @Override
-    public void use(Combatant user, Combatant target) {
+    public void use(Combatant user, List<Combatant> targets) {
         if (used) {
             System.out.println("Smoke Bomb has already been used.");
             return;
         }
 
-        if (target == null) {
-            System.out.println("No target selected for Smoke Bomb.");
+        if (user == null) {
+            System.out.println("No user selected.");
             return;
         }
 
-        SmokeBombEffect effect = new SmokeBombEffect(EFFECT_DURATION);
-        target.addEffect(effect);
-        effect.applyEffect(target);
+        if (!user.isAlive()) {
+            System.out.println(user.getName() + " is defeated and cannot use items.");
+            return;
+        }
 
-        System.out.println(target.getClass().getSimpleName()
-                + " is affected by Smoke Bomb!");
+        user.addStatusEffect(new SmokeBombEffect());
+        System.out.println(user.getName() + " used Smoke Bomb!");
 
         used = true;
-    }
-
-    public boolean isUsed() {
-        return used;
     }
 }
