@@ -1,6 +1,7 @@
 package src.items;
 
-import src.character.Combatant;
+import src.entity.Combatant;
+import java.util.List;
 
 public class Potion implements Item {
 
@@ -14,41 +15,34 @@ public class Potion implements Item {
 
     @Override
     public String getDescription() {
-        return "Heals 100 HP, up to the target's max HP.";
+        return "Heal 100 HP.";
     }
 
     @Override
-    public void use(Combatant user, Combatant target) {
-
+    public void use(Combatant user, List<Combatant> targets) {
         if (used) {
             System.out.println("Potion has already been used.");
             return;
         }
 
-        if (target == null) {
-            System.out.println("No target selected.");
+        if (user == null) {
+            System.out.println("No user selected.");
             return;
         }
 
-        if (!target.isAlive()) {
-            System.out.println(target.getName() + " is defeated and cannot be healed.");
+        if (!user.isAlive()) {
+            System.out.println(user.getName() + " is defeated and cannot use items.");
             return;
         }
 
-        int beforeHP = target.getHP();
-        target.heal(HEAL_AMOUNT);
-        int afterHP = target.getHP();
-        int healedAmount = afterHP - beforeHP;
+        int beforeHP = user.getHP();
+        user.heal(HEAL_AMOUNT);
+        int afterHP = user.getHP();
+
+        System.out.println(user.getName() + " used Potion! HP: " + beforeHP + " -> " + afterHP);
 
         used = true;
-
-        System.out.println(
-            user.getName() + " used Potion on " + target.getName() +
-            ". HP: " + beforeHP + " -> " + afterHP +
-            " (+" + healedAmount + ")"
-        );
-    } 
+    }
 }
-
 
 
