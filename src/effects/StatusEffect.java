@@ -1,48 +1,60 @@
 package src.effects;
 
-import src.character.Combatant;
+import src.entity.Combatant;
 
-public abstract class StatusEffect{
-    protected String name;
-    protected int durationTurns;
-    protected int currentDuration;
+public abstract class StatusEffect {
 
-    public StatusEffect(String name, int durationTurns){
-    this.name=name;
-    this.durationTurns=durationTurns;
-    this.currentDuration=durationTurns;}
+    protected final String name;
+    protected int duration;
 
-    public String getName(){
-    return name;}
-
-    public int getDurationTurns(){
-        return durationTurns;
-
+    protected StatusEffect(String name, int duration) {
+        this.name = name;
+        this.duration = duration;
     }
 
-    public int getCurrentDuration(){
-        return currentDuration;
-
+    public String getName() {
+        return name;
     }
 
-    public void decrementDuration(){
-        if(currentDuration>0){
-            currentDuration--;
+    public int getDuration() {
+        return duration;
+    }
+
+    public void decrementDuration() {
+        if (duration > 0) {
+            duration--;
         }
     }
 
-    public boolean isExpired(){
-        return currentDuration<=0;
+    public boolean isExpired() {
+        return duration <= 0;
     }
 
-    public abstract void applyEffect(Combatant target);
+    
+    public void onApply(Combatant target) {}
 
-    public abstract void removeEffect(Combatant target);
+    
+    public void onExpire(Combatant target) {}
 
-    public void onTurnStart(Combatant target){}
+    
+    public boolean isTurnBlocking() {
+        return false;
+    }
 
+    
+    public boolean nullifiesEnemyDamage() {
+        return false;
+    }
 
+    
+    public int getDefenseBonus() {
+        return 0;
+    }
 
+    @Override
+    public String toString() {
+        return name + " (" + duration + " turn(s))";
+    }
 }
 
 
