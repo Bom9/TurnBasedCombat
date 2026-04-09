@@ -1,6 +1,6 @@
 package src.effects;
 
-import src.entity.Combatant;
+import src.character.Combatant;
 
 public abstract class StatusEffect {
 

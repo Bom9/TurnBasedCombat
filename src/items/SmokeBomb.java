@@ -1,6 +1,6 @@
 package src.items;
 
-import src.entity.Combatant;
+import src.character.Combatant;
 import src.effects.SmokeBombEffect;
 
 import java.util.List;

@@ -1,8 +1,8 @@
 package src.effects;
 
-import src.entity.Combatant;
-import src.entity.Player;
-import src.entity.Wizard;
+import src.character.Combatant;
+import src.character.Player;
+import src.character.Wizard;
 
 public class ArcaneBlastBuff extends StatusEffect {
 

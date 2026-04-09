@@ -1,6 +1,6 @@
 package src.items;
 
-import src.entity.Combatant;
+import src.character.Combatant;
 import java.util.List;
 
 public class Potion implements Item {
