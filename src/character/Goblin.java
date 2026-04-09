@@ -1,4 +1,4 @@
-package src.character;
+package src.entity;
 import strategy.BasicEnemyStrategy;
 
 public class Goblin extends Enemy{
@@ -16,3 +16,4 @@ public class Goblin extends Enemy{
         this("Goblin");
     }
 }
+
