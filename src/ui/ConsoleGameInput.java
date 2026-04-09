@@ -1,8 +1,8 @@
 package src.ui;
-import action.*;
-import entity.*;
-import item.*;
-import level.DifficultyLevel;
+import src.actions.*;
+import src.character.*;
+import src.items.*;
+import src.level.DifficultyLevel;
 import src.actions.SpecialSkill;
 
 import java.util.ArrayList;

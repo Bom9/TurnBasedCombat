@@ -1,10 +1,10 @@
 package src.ui;
-import java.util.list;
-import item.Item;
-import action.Action;
-import entity.Combatant;
-import entity.Player;
-import level.DifficultyLevel;
+import java.util.List;
+import src.items.Item;
+import src.actions.Action;
+import src.character.Combatant;
+import src.character.Player;
+import src.level.DifficultyLevel;
 import src.character.Combatant;
 
 public interface GameInputUI {
