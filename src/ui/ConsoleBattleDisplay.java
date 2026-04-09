@@ -1,6 +1,6 @@
 package src.ui;
-import entity.Combatant;
-import entity.Player;
+import src.character.Combatant;
+import src.character.Player;
 import java.util.List;
 
 

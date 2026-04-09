@@ -1,8 +1,8 @@
 package src.ui;
 
 import java.util.List;
-import entity.Combatant;
-import entity.Player;
+import src.character.Combatant;
+import src.character.Player;
 
 public interface BattleDisplayUI {
     //Print line to combat log//
