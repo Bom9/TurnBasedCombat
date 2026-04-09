@@ -1,47 +1,29 @@
 package src.effects;
 
-import src.character.Combatant;
-import java.lang.reflect.Field;
+import src.entity.Combatant;
 
 public class DefenseBoost extends StatusEffect {
-    private static final int BOOST_AMOUNT = 10;
 
-    public DefenseBoost(int durationTurns) {
-        this.name = "Defense Boost";
-        this.durationTurns = durationTurns;
-        this.currentDuration = durationTurns;
+    private static final int DEFENSE_BONUS = 10;
+    private static final int DURATION = 2;
+
+    public DefenseBoost() {
+        super("Defense Boost", DURATION);
     }
 
     @Override
-    public void applyEffect(Combatant target) {
-        try {
-            Field defenseField = Combatant.class.getDeclaredField("defense");
-            defenseField.setAccessible(true);
-
-            int currentDefense = defenseField.getInt(target);
-            defenseField.setInt(target, currentDefense + BOOST_AMOUNT);
-
-            System.out.println(target.getClass().getSimpleName()
-                    + " gains +" + BOOST_AMOUNT + " defense for "
-                    + durationTurns + " turns.");
-        } catch (Exception e) {
-            System.out.println("Failed to apply Defense Boost.");
-        }
+    public void onApply(Combatant target) {
+        System.out.println(target.getName() + " gains +" + DEFENSE_BONUS
+                + " defense for this turn and the next turn.");
     }
 
     @Override
-    public void removeEffect(Combatant target) {
-        try {
-            Field defenseField = Combatant.class.getDeclaredField("defense");
-            defenseField.setAccessible(true);
+    public void onExpire(Combatant target) {
+        System.out.println("Defense Boost on " + target.getName() + " has expired.");
+    }
 
-            int currentDefense = defenseField.getInt(target);
-            defenseField.setInt(target, currentDefense - BOOST_AMOUNT);
-
-            System.out.println(target.getClass().getSimpleName()
-                    + "'s Defense Boost has worn off.");
-        } catch (Exception e) {
-            System.out.println("Failed to remove Defense Boost.");
-        }
+    @Override
+    public int getDefenseBonus() {
+        return DEFENSE_BONUS;
     }
 }
