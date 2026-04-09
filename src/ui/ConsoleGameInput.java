@@ -151,7 +151,7 @@ public class ConsoleGameInput {
     private Item createItem(int choice) {
         return switch (choice) {
             case 1 -> new Potion();
-            case 2 -> new PoweStone();
+            case 2 -> new PowerStone();
             default -> new SmokeBomb();
         };
         }
