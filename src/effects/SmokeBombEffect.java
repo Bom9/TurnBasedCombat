@@ -1,7 +1,8 @@
 package src.effects;
 
-import src.character.Combatant;
 
+ /*SmokeBombEffect nullifies all incoming enemy damage
+ for the current turn and the next turn.*/
 public class SmokeBombEffect extends StatusEffect {
 
     private static final int DURATION = 2;
@@ -11,17 +12,12 @@ public class SmokeBombEffect extends StatusEffect {
     }
 
     @Override
-    public void onApply(Combatant target) {
-        System.out.println(target.getName() + " is protected by Smoke Bomb! Enemy attacks will deal 0 damage this turn and the next turn.");
-    }
-
-    @Override
-    public void onExpire(Combatant target) {
-        System.out.println("Smoke Bomb effect on " + target.getName() + " has expired.");
-    }
-
-    @Override
     public boolean nullifiesEnemyDamage() {
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Smoke Bomb Shield (" + duration + " turn" + (duration == 1 ? "" : "s") + " left)";
     }
 }
