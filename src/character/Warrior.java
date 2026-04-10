@@ -13,6 +13,6 @@ public class Warrior extends Player{
     }
 
     public Warrior(){
-        this(name: "Warrior");
+        this("Warrior");
     }
 }

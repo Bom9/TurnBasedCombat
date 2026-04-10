@@ -1,5 +1,8 @@
 package src.action;
 
+import src.character.*;
+import java.util.List;
+
 public class ArcaneBlast implements SpecialSkill {
   private int cooldownTimer = 0;
   private static final int MAX_COOLDOWN = 3;
@@ -14,7 +17,7 @@ public class ArcaneBlast implements SpecialSkill {
     System.out.println(user.getName() + " casts Arcane Blast on all enemies!");
         
     for (Combatant target : targets) {
-      int damage = Math.max(0, user.getAttack() - target.getDefense());
+      int damage = Math.max(0, user.getAtk() - target.getDef());
       target.takeDamage(damage);
       System.out.println(target.getName() + " takes " + damage + " damage!");
       if (!target.isAlive()) {

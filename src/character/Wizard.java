@@ -15,7 +15,7 @@ public class Wizard extends Player{
     }
 
     public Wizard(){
-        this(name: "Wizard");
+        this("Wizard");
     }
     public void addAtkBonus(int amount){
         atkBonus += amount;

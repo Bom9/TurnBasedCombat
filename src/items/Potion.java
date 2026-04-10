@@ -1,6 +1,6 @@
 package src.items;
 
-import character.Combatant;
+import src.character.Combatant;
 import java.util.List;
 
 

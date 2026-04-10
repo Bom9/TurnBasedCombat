@@ -1,7 +1,7 @@
 package src.items;
 
-import character.Combatant;
-import character.Player;
+import src.character.Combatant;
+import src.character.Player;
 import java.util.List;
 
 

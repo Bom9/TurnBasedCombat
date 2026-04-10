@@ -2,7 +2,6 @@ package src.level;
 
 import jdk.jshell.execution.JdiDefaultExecutionControl;
 import src.character.*;
-import src.ui.GameConfig;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,8 +54,4 @@ public class LevelManager {
             case HARD -> "Initial Spawn: 2 Goblins | Backup: 1 Goblin = 2 Wolfs";
         };
     }
-    public List<Combatant> getInitialWave() { return null; }
-    public List<Combatant> getBackupWave() { return null; }
-    public void setDifficulty(GameConfig level) {}
-    public GameConfig getDifficulty() { return null; }
 }
