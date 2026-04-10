@@ -1,44 +1,26 @@
 package src.items;
 
-import src.character.Combatant;
-import src.effects.SmokeBombEffect;
-
+import character.Combatant;
+import effects.SmokeBombEffect;
 import java.util.List;
 
-public class SmokeBomb implements Item {
 
-    private boolean used = false;
+ /* SmokeBomb applies a protective effect that nullifies
+  all incoming enemy damage for the current and next turn.*/
+ 
+public class SmokeBomb extends Item {
 
-    @Override
-    public String getName() {
-        return "Smoke Bomb";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Enemy attacks deal 0 damage this turn and the next turn.";
+    public SmokeBomb() {
+        super("Smoke Bomb");
     }
 
     @Override
     public void use(Combatant user, List<Combatant> targets) {
-        if (used) {
-            System.out.println("Smoke Bomb has already been used.");
-            return;
-        }
-
-        if (user == null) {
-            System.out.println("No user selected.");
-            return;
-        }
-
-        if (!user.isAlive()) {
-            System.out.println(user.getName() + " is defeated and cannot use items.");
-            return;
-        }
-
         user.addStatusEffect(new SmokeBombEffect());
-        System.out.println(user.getName() + " used Smoke Bomb!");
+    }
 
-        used = true;
+    @Override
+    public String getDescription() {
+        return "Enemy attacks deal 0 damage this turn and the next.";
     }
 }
