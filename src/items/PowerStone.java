@@ -5,8 +5,7 @@ import character.Player;
 import java.util.List;
 
 
- /* PowerStone triggers the player's special skill once
- without affecting cooldown. */
+ //PowerStone triggers the player's special skill once without affecting cooldown. 
  
 public class PowerStone extends Item {
 
