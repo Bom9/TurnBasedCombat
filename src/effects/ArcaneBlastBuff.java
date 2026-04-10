@@ -1,33 +1,27 @@
 package src.effects;
 
-import src.character.Combatant;
-import src.character.Player;
-import src.character.Wizard;
 
+ /* ArcaneBlastBuff increases the combatant's attack damage
+ for a few turns.*/
+ 
 public class ArcaneBlastBuff extends StatusEffect {
 
-    private static final int ATK_BONUS = 20;
-    private static final int DURATION = 3;
+    private static final int BONUS = 20;   // attack boost amount
+    private static final int DURATION = 3; // lasts 3 turns
 
     public ArcaneBlastBuff() {
         super("Arcane Blast Buff", DURATION);
     }
 
-    @Override
-    public void onApply(Combatant target) {
-        if (target instanceof Wizard) {
-            Wizard wizard = (Wizard) target;
-            wizard.addAtkBonus(ATK_BONUS);
-            System.out.println(wizard.getName() + " gains +" + ATK_BONUS + " ATK from Arcane Blast!");
-        }
+    
+    // Returns additional attack granted by this effect.
+     
+    public int getAttackBonus() {
+        return BONUS;
     }
 
     @Override
-    public void onExpire(Combatant target) {
-        if (target instanceof Wizard) {
-            Wizard wizard = (Wizard) target;
-            wizard.addAtkBonus(-ATK_BONUS);
-            System.out.println(wizard.getName() + "'s Arcane Blast buff has expired.");
-        }
+    public String toString() {
+        return "Arcane Blast Buff +" + BONUS + " (" + duration + " turn" + (duration == 1 ? "" : "s") + " left)";
     }
 }
