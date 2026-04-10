@@ -1,4 +1,4 @@
-package src.actions;
+package src.action;
 
 public class EnemyBasicAttack implements Action{
   @Override

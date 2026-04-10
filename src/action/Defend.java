@@ -1,4 +1,4 @@
-package src.actions;
+package src.action;
 
 public class Defend implements Action{
   @Override

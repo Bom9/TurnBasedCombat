@@ -1,10 +1,9 @@
-package src.entity;
+package src.character;
 
 import java.util.List;
 
 import src.action.Action;
-import src.actions.EnemyActionStrategy;
-import src.actions.EnemyStrategy;
+import src.strategy.EnemyStrategy;
 
 public abstract class Enemy extends Combatant {
     protected EnemyStrategy strategy;

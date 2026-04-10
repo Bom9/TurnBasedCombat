@@ -1,6 +1,6 @@
-package src.entity;
+package src.character;
 
-import action.ShieldBash;
+import src.action.ShieldBash;
 
 public class Warrior extends Player{
     public static final int BASE_HP = 260;

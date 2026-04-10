@@ -1,4 +1,4 @@
-package src.actions;
+package src.action;
 
 public interface SpecialSkill extends Action {
     int getCooldownTimer();

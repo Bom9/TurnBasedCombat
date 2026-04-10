@@ -1,6 +1,6 @@
-package src.entity;
+package src.character;
 
-import strategy.BasicEnemyStrategy;
+import src.strategy.BasicEnemyStrategy;
 public class Wolf extends Enemy {
 
     public static final int BASE_HP  = 40;

@@ -1,5 +1,5 @@
-package src.entity;
-import strategy.BasicEnemyStrategy;
+package src.character;
+import src.strategy.BasicEnemyStrategy;
 
 public class Goblin extends Enemy{
 

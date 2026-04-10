@@ -1,29 +1,33 @@
-package src.actions;
+package src.action;
 
-public class ShieldBash implements SpecialSkill{
-  private in cooldownTimer = 0;
+public class ArcaneBlast implements SpecialSkill {
+  private int cooldownTimer = 0;
   private static final int MAX_COOLDOWN = 3;
-  
+
   @Override
-  public void execute(Combatant user, List<COmbatant> targets){
-    if (!isReady()){
-      System.out.println("Shield Bash is on cooldown!");
+  public void execute(Combatant user, List<Combatant> targets) {
+    if (!isReady()) {
+      System.out.println("Arcane Blast is on cooldown!");
       return;
     }
 
+    System.out.println(user.getName() + " casts Arcane Blast on all enemies!");
+        
     for (Combatant target : targets) {
       int damage = Math.max(0, user.getAttack() - target.getDefense());
       target.takeDamage(damage);
-      
-      target.addEffect(new Stun(2));
-      System.out.println(user.getName() + " uses Shield Bash! " + target.getName() + " takes " + damage + " damage and is Stunned!");
+      System.out.println(target.getName() + " takes " + damage + " damage!");
+      if (!target.isAlive()) {
+        System.out.println(target.getName() + " was defeated by Arcane Blast!");
+        user.addEffect(new ArcaneBlastBuff(999, 10)); 
+      }
     }
     resetCooldown();
   }
 
   @Override
   public int getCooldownTimer() { return cooldownTimer; }
-  
+
   @Override
   public void reduceCooldown() {
     if (cooldownTimer > 0) cooldownTimer--;
@@ -41,6 +45,7 @@ public class ShieldBash implements SpecialSkill{
 
   @Override
   public String getName() {
-    return "Shield Bash";
+    return "Arcane Blast";
   }
 }
+  

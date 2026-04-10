@@ -1,11 +1,11 @@
-package src.entity;
+package src.character;
 
 import src.items.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import src.actions.SpecialSkill;
+import src.action.SpecialSkill;
 
 public abstract class Player extends Combatant {
     protected final SpecialSkill specialSkill;

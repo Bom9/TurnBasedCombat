@@ -1,11 +1,10 @@
 package src.ui;
 import java.util.List;
 import src.items.Item;
-import src.actions.Action;
+import src.action.Action;
 import src.character.Combatant;
 import src.character.Player;
 import src.level.DifficultyLevel;
-import src.character.Combatant;
 
 public interface GameInputUI {
     //Select a class, returns a newly constructed Player instance with class

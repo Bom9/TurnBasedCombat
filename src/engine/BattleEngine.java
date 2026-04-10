@@ -1,14 +1,13 @@
 package src.engine;
 
-import src.actions.*;
+import src.action.*;
 import src.character.*;
 import src.level.*;
 import src.ui.*;
-import src.items.*;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+
 /*
     the control class that manages the gaming logic, coordinating all other classes
  */

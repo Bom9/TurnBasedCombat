@@ -1,6 +1,6 @@
-package src.entity;
+package src.character;
 
-import action.ArcaneBlast;
+import src.action.ArcaneBlast;
 
 public class Wizard extends Player{
     public static final int BASE_HP = 200;

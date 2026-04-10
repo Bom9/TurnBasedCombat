@@ -1,4 +1,4 @@
-package src.actions;
+package src.action;
 
 public class UseItem implements Action {
   private Item itemToUse;

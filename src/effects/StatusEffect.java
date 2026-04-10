@@ -1,6 +1,6 @@
 package src.effects;
 
-import character.Combatant;
+import src.character.Combatant;
 
 
  //Abstract base class for all status effects.
