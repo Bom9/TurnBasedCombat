@@ -1,54 +1,43 @@
 package src.action;
 
-import src.character.*;
+import src.entity.Combatant;
+import src.entity.Wizard;
 import java.util.List;
 
-public class ArcaneBlast implements SpecialSkill {
-  private int cooldownTimer = 0;
-  private static final int MAX_COOLDOWN = 3;
+public class ArcaneBlast extends SpecialSkill{
 
-  @Override
-  public void execute(Combatant user, List<Combatant> targets) {
-    if (!isReady()) {
-      System.out.println("Arcane Blast is on cooldown!");
-      return;
+	@Override
+	public void execute(Combatant user, List<Combatant> targets){
+		if (targets == null || targets.isEmpty()) return;
+
+		for (Combatant target : targets){
+            if (!target.isAlive()) continue;
+
+            int damage = Math.max(0, attacker.getAtk() - target.getEffectiveDef());
+            target.takeDamage(damage);
+			
+			if (!target.isAlive() && attacker instanceof Wizard){
+                ((Wizard) attacker).addAtkBonus(10);
+			}
+		}
+	}
+	@Override 
+	public boolean isAreaOfEffect(){
+		return true;
+	}
+
+	@Override
+	public String getDescription(){
+		return "Deal BasicAttack damage to ALL enemies. Each kill grants +10 ATK permanently.";
     }
 
-    System.out.println(user.getName() + " casts Arcane Blast on all enemies!");
-        
-    for (Combatant target : targets) {
-      int damage = Math.max(0, user.getAtk() - target.getDef());
-      target.takeDamage(damage);
-      System.out.println(target.getName() + " takes " + damage + " damage!");
-      if (!target.isAlive()) {
-        System.out.println(target.getName() + " was defeated by Arcane Blast!");
-        user.addEffect(new ArcaneBlastBuff(999, 10)); 
-      }
-    }
-    resetCooldown();
-  }
-
-  @Override
-  public int getCooldownTimer() { return cooldownTimer; }
-
-  @Override
-  public void reduceCooldown() {
-    if (cooldownTimer > 0) cooldownTimer--;
-  }
-
-  @Override
-  public void resetCooldown() {
-    cooldownTimer = MAX_COOLDOWN;
-  }
-
-  @Override
-  public boolean isReady() {
-    return cooldownTimer == 0;
-  }
-
-  @Override
-  public String getName() {
-    return "Arcane Blast";
-  }
+	@Override
+	public String getName(){
+		return "Arcane Blast";
+	}
 }
+	
+
+
+
   

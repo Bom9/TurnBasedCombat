@@ -1,46 +1,41 @@
 package src.action;
 
-public class ShieldBash implements SpecialSkill{
-  private in cooldownTimer = 0;
-  private static final int MAX_COOLDOWN = 3;
-  
-  @Override
-  public void execute(Combatant user, List<COmbatant> targets){
-    if (!isReady()){
-      System.out.println("Shield Bash is on cooldown!");
-      return;
+import effect.Stun;
+import entity.Enemy;
+import entity.Combatant;
+
+public class ShieldBash extends SpecialSkill{
+
+@Override
+public void execute(Combatant attacker, List<Combatant> targets){
+    if (targets == null || targets.isEmpty())
+        return;
+
+    Combatant target = targets.get(0);
+    if (!target.isAlive()) 
+        return;
+
+    int damage = Math.max(0, attacker.getAtk() - target.getEffectiveDef());
+    target.takeDamage(damage);
+    
+    if (target.isAlive()){
+            target.addStatusEffect(new Stun());
     }
-
-    for (Combatant target : targets) {
-      int damage = Math.max(0, user.getAttack() - target.getDefense());
-      target.takeDamage(damage);
-      
-      target.addEffect(new Stun(2));
-      System.out.println(user.getName() + " uses Shield Bash! " + target.getName() + " takes " + damage + " damage and is Stunned!");
-    }
-    resetCooldown();
-  }
-
-  @Override
-  public int getCooldownTimer() { return cooldownTimer; }
-  
-  @Override
-  public void reduceCooldown() {
-    if (cooldownTimer > 0) cooldownTimer--;
-  }
-
-  @Override
-  public void resetCooldown() {
-    cooldownTimer = MAX_COOLDOWN;
-  }
-
-  @Override
-  public boolean isReady() {
-    return cooldownTimer == 0;
-  }
-
-  @Override
-  public String getName() {
-    return "Shield Bash";
-  }
 }
+
+    @Override 
+    public boolean isAreaOfEffect(){
+        return false;
+    }
+    @Override
+    public String getName(){
+        return "Shield Bash";
+    }
+    @Override
+    public String getDescription(){
+        return "Deal BasicAttack damage and STUN the target for 2 turns.";
+    }
+}
+
+
+

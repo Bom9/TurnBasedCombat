@@ -10,7 +10,7 @@ public class BasicAttack implements Action {
         if (!target.isAlive()) 
 			return;
 
-		if (attacker instanceof Enemy && target.isProtectedFromAttack()) {
+		if (attacker instanceof Enemy && target.isProtectedFromAttack()){
 			return;
 		}	
 
