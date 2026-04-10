@@ -1,15 +1,68 @@
 package src.effects;
 
-import src.character.Combatant;
+import character.Combatant;
 
+
+ //Abstract base class for all status effects.
+ 
 public abstract class StatusEffect {
 
-    protected final String name;
+    protected String name;
     protected int duration;
 
-    protected StatusEffect(String name, int duration) {
+    public StatusEffect(String name, int duration) {
         this.name = name;
         this.duration = duration;
+    }
+
+    
+     //Called once when the effect is first applied.
+     
+    public void onApply(Combatant target) {
+        // default: do nothing
+    }
+
+    
+     //Called once when the effect expires.
+     
+    public void onExpire(Combatant target) {
+        // default: do nothing
+    }
+
+    
+     //Reduces remaining duration by one.
+    public void decrementDuration() {
+        if (duration > 0) {
+            duration--;
+        }
+    }
+
+    
+     // Returns true if the effect has expired.
+     
+    public boolean isExpired() {
+        return duration <= 0;
+    }
+
+    
+     //Returns true if this effect blocks the holder's turn.
+    
+    public boolean isTurnBlocking() {
+        return false;
+    }
+
+    
+     //Returns additional defense granted by this effect.
+     
+    public int getDefenseBonus() {
+        return 0;
+    }
+
+    
+     //Returns true if this effect nullifies incoming enemy damage.
+     
+    public boolean nullifiesEnemyDamage() {
+        return false;
     }
 
     public String getName() {
@@ -20,44 +73,11 @@ public abstract class StatusEffect {
         return duration;
     }
 
-    public void decrementDuration() {
-        if (duration > 0) {
-            duration--;
-        }
-    }
-
-    public boolean isExpired() {
-        return duration <= 0;
-    }
-
-    
-    public void onApply(Combatant target) {}
-
-    
-    public void onExpire(Combatant target) {}
-
-    
-    public boolean isTurnBlocking() {
-        return false;
-    }
-
-    
-    public boolean nullifiesEnemyDamage() {
-        return false;
-    }
-
-    
-    public int getDefenseBonus() {
-        return 0;
-    }
-
     @Override
     public String toString() {
-        return name + " (" + duration + " turn(s))";
+        return name + " (" + duration + " turn" + (duration == 1 ? "" : "s") + " left)";
     }
 }
-
-
 
 
 
