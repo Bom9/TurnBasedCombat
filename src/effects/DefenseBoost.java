@@ -1,10 +1,12 @@
 package src.effects;
 
-import src.character.Combatant;
 
+ /* DefenseBoost increases the combatant's defense by 10
+ for 2 turns. */
+ 
 public class DefenseBoost extends StatusEffect {
 
-    private static final int DEFENSE_BONUS = 10;
+    private static final int BONUS = 10;
     private static final int DURATION = 2;
 
     public DefenseBoost() {
@@ -12,18 +14,12 @@ public class DefenseBoost extends StatusEffect {
     }
 
     @Override
-    public void onApply(Combatant target) {
-        System.out.println(target.getName() + " gains +" + DEFENSE_BONUS
-                + " defense for this turn and the next turn.");
-    }
-
-    @Override
-    public void onExpire(Combatant target) {
-        System.out.println("Defense Boost on " + target.getName() + " has expired.");
-    }
-
-    @Override
     public int getDefenseBonus() {
-        return DEFENSE_BONUS;
+        return BONUS;
+    }
+
+    @Override
+    public String toString() {
+        return "Defense Boost +" + BONUS + " (" + duration + " turn" + (duration == 1 ? "" : "s") + " left)";
     }
 }
