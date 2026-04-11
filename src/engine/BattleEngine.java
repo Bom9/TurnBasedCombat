@@ -54,16 +54,15 @@ public class BattleEngine {
             display.displayRoundStart(round);
 
             // if enemies all eliminated, check backup spawn
-            if(!backupSpawned && !backupEnemies.isEmpty() && activeEnemies.isEmpty()){
-                activeEnemies.addAll(backupEnemies);
-                backupEnemies.clear();
-                backupSpawned = true;
-                display.displayCombatLog("Surprise!\nBACKUP ENEMIES SPAWN! "+activeEnemies.size() +" new enemies enter the arena!");
-                activeEnemies.forEach(e ->
-                        display.displayCombatLog(" + "+e.getName()+"(HP: "+e.getHP()+"/"+e.getMaxHP()+")")
-                );
-            }
+            checkAndSpawnBackup();
 
+            /*
+                ensure player choose item first regardless of the turn order strategy
+                if player is stunned, no prompt is shown
+             */
+            PendingPlayerAction pending = null;
+            if(player.isAlive() && !player.isStunned())
+                pending = promptPlayerAction();
             //process each combatant's turn based on speed order, easily change to different turn order
             List<Combatant> allCombatants = buildAllCombatants();
             List<Combatant> turnOrder = turnOrderStrategy.sortCombatants(allCombatants);
@@ -81,7 +80,7 @@ public class BattleEngine {
 
                 //combatant not stunned, then proceed to execute the turn
                 if(combatant instanceof Player p){
-                    executePlayerTurn(p);
+                    executePendingPlayerAction(p, pending);
                 }else if(combatant instanceof Enemy e){
                     executeEnemyTurn(e);
                 }
@@ -97,6 +96,45 @@ public class BattleEngine {
             display.displayCombatantStatus(buildAllCombatants());
             if(checkGameOver())
                 return evaluateOutcome();
+        }
+    }
+    /*
+        prompt the user on action selection before the round starting
+        keep track of the CD
+     */
+    private PendingPlayerAction promptPlayerAction(){
+        player.decrementSkillCooldown();
+
+        List<Action> available = buildAvailableActions(player);
+
+        display.displayCombatLog("Choose your action for this round: ");
+        Action chosen = input.promptActionChoice(player, available);
+
+        Combatant preSelectedTarget = null;
+        int preSelectedItemIndex = -1;
+
+        if(chosen instanceof BasicAttack){
+            preSelectedTarget = input.promptTargetSelection(aliveEnemiesAsCombatants());
+        }else if(chosen instanceof SpecialSkill skill && !skill.isAreaOfEffect()){
+            preSelectedTarget = input.promptTargetSelection(aliveEnemiesAsCombatants());
+        }else if(chosen instanceof UseItem){
+            preSelectedItemIndex = input.promptItemSelection(player);
+            Item peeked = player.getInventory().get(preSelectedItemIndex);
+            if(peeked instanceof PowerStone && !player.getSpecialSkill().isAreaOfEffect()){
+                preSelectedTarget = input.promptTargetSelection(aliveEnemiesAsCombatants());
+            }
+        }
+        return new PendingPlayerAction(chosen, preSelectedTarget, preSelectedItemIndex);
+    }
+    private void checkAndSpawnBackup(){
+        if(!backupSpawned && !backupEnemies.isEmpty() && activeEnemies.isEmpty()){
+            activeEnemies.addAll(backupEnemies);
+            backupEnemies.clear();
+            backupSpawned = true;
+            display.displayCombatLog("Surprise!\nBACKUP ENEMIES SPAWN! "+activeEnemies.size() +" new enemies enter the arena!");
+            activeEnemies.forEach(e ->
+                    display.displayCombatLog(" + "+e.getName()+"(HP: "+e.getHP()+"/"+e.getMaxHP()+")")
+            );
         }
     }
 
@@ -140,20 +178,35 @@ public class BattleEngine {
         }
     }
 
-    private void executePlayerTurn(Player player){
+    /*
+        only purpose is to hold what action the player have decided for the round
+     */
+    private static class PendingPlayerAction{
+        final Action action;
+        final Combatant target;
+        final int preSelectedItemIndex;
+
+        PendingPlayerAction(Action action, Combatant target, int preSelectedItemIndex){
+            this.action = action;
+            this.target = target;
+            this.preSelectedItemIndex = preSelectedItemIndex;
+        }
+    }
+
+    private void executePendingPlayerAction(Player player, PendingPlayerAction pending){
         /*
+            execute the action that player have choosed
             handle the player turn process, including the monitoring of CD
             CD decrement before action choice so the skill become available on the correct turn
             eg. ShieldBash used in round 2 will have CD set to 3
             decrement on each turn, when at round 5, CD become 0, and is available for use
          */
-        player.decrementSkillCooldown();
+        Action chosen = pending.action;
 
-        List<Action> available = buildAvailableActions(player);
-        Action chosen = input.promptActionChoice(player, available);
 
         if(chosen instanceof BasicAttack){
-            Combatant target = input.promptTargetSelection(aliveEnemiesAsCombatants());
+//            Combatant target = input.promptTargetSelection(aliveEnemiesAsCombatants());
+            Combatant target = resolveTarget(pending.target);
             int damage = Math.max(0, player.getAttack() - target.getEffectiveDef());
             chosen.execute(player, List.of(target));
             if(target.isAlive()){
@@ -167,17 +220,23 @@ public class BattleEngine {
         }else if(chosen instanceof Defend){
             chosen.execute(player, List.of());
             display.displayCombatLog(player.getName() + " takes a defensive stance (+10 DEFEND for 2 turns)");
+
         }else if(chosen instanceof SpecialSkill skill){
-            executePlayerSpecialSkill(player, skill);
+            executePlayerSpecialSkill(player, skill, pending.target);
             player.triggerSkillCooldown();
+
         }else if(chosen instanceof UseItem){
-            executePlayerItem(player);
+            executePlayerItem(player, pending.preSelectedItemIndex, pending.target);
         }
     }
 
-    private void executePlayerItem(Player player){
-        int index = input.promptItemSelection(player);
-        Item item = player.removeItem(index);
+    private Combatant resolveTarget(Combatant preChosen){
+        if(preChosen != null && preChosen.isAlive()) return preChosen;
+        return aliveEnemiesAsCombatants().stream().findFirst().orElse(null);
+    }
+
+    private void executePlayerItem(Player player, int itemIndex, Combatant preSelectedTargets){
+        Item item = player.removeItem(itemIndex);
 
         if(item instanceof SmokeBomb){
             item.use(player, List.of());
@@ -200,21 +259,26 @@ public class BattleEngine {
                 }
                 removeDeadEnemies();
             }else{
-                Combatant target = input.promptTargetSelection(aliveEnemiesAsCombatants());
-                item.use(player, List.of(target));
-                display.displayCombatLog(" "+player.getSpecialSkill().getName()+" hits "+target.getName()+"!");
-                if(target.isStunned()){
-                    display.displayCombatLog("  "+target.getName()+" is STUNNED for 2 turns!");
+                Combatant target = resolveTarget(preSelectedTargets);
+
+                if(target != null){
+                    item.use(player, List.of(target));
+                    display.displayCombatLog(" "+player.getSpecialSkill().getName()+" hits "+target.getName()+"!");
+                    if(target.isStunned()){
+                        display.displayCombatLog("  "+target.getName()+" is STUNNED for 2 turns!");
+                    }
+                    if(!target.isAlive()){
+                        display.displayCombatLog("  "+target.getName()+" is ELIMINATED!");
+                        removeDeadEnemies();
+                    }
                 }
-                if(!target.isAlive()){
-                    display.displayCombatLog("  "+target.getName()+" is ELIMINATED!");
-                    removeDeadEnemies();
-                }
+
+
             }
         }
     }
 
-    private void executePlayerSpecialSkill(Player player, SpecialSkill skill){
+    private void executePlayerSpecialSkill(Player player, SpecialSkill skill, Combatant preSelectedTarget){
         //only two condition, targeting area or single target
         if(skill.isAreaOfEffect()){
             List<Combatant> targets = aliveEnemiesAsCombatants();
@@ -225,7 +289,7 @@ public class BattleEngine {
                 int damage = Math.max(0, attackBefore - c.getEffectiveDef());
                 if(c.isAlive()){
                     display.displayCombatLog(c.getName()+ " takes "+damage
-                    + " damage (HP: " + c.getHP()+"/"+c.getName()+" takes "+damage);
+                    + " damage (HP: " + c.getHP()+"/"+c.getMaxHP()+" "+c.getName()+" takes "+damage+" damage)");
                 }else{
                     display.displayCombatLog(c.getName()+ " takes "+damage
                             + " damage - ELIMINATED!");
@@ -238,7 +302,9 @@ public class BattleEngine {
 
         }else{
             //single target
-            Combatant target = input.promptTargetSelection(aliveEnemiesAsCombatants());
+            Combatant target = resolveTarget(preSelectedTarget);
+            if(target == null) return;
+
             int damage = Math.max(0, player.getAttack() - target.getEffectiveDef());
             skill.execute(player, List.of(target));
             display.displayCombatLog(player.getName()+ " uses "+skill.getName()
@@ -296,12 +362,4 @@ public class BattleEngine {
         all.addAll(activeEnemies);
         return all;
     }
-
-    public void startGame() {}
-    public void executeRound() {}
-    public void processAction(Action action, Combatant user, List<Combatant> targets) {}
-    public boolean checkWinCondition() { return false; }
-    public boolean checkLossCondition() { return false; }
-    public void handleBackupSpawns() {}
-    public void endTurn() {}
 }
