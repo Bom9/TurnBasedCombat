@@ -3,6 +3,8 @@ package src.engine;
 import src.character.Player;
 import src.items.Item;
 import src.level.*;
+import src.ui.GameInputUI;
+
 import java.util.List;
 /*
     utilise/depend on GameInputUI and LevelManager to get the initial input from user
