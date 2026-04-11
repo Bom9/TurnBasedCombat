@@ -30,6 +30,6 @@ public class BasicAttack implements Action {
 
 	@Override
 	public String getDescription(){
-		return "Attack a single target. Damage = max(0,ATK - DEF)."
+		return "Attack a single target. Damage = max(0,ATK - DEF).";
 	}
 }

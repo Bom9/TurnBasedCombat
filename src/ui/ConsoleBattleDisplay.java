@@ -5,7 +5,7 @@ import java.util.List;
 
 
 public class ConsoleBattleDisplay implements BattleDisplayUI{
-    private static final String SEPARATOR = "═══════════════════════════════════════════════════════════";
+    private static final String SEPARATOR = "======================================================";
 
     @Override
     public void displayCombatLog(String message) {
@@ -14,10 +14,10 @@ public class ConsoleBattleDisplay implements BattleDisplayUI{
 
     @Override
     public void displayCombatantStatus(List<Combatant> combatants) {
-        System.out.println("\n  ----------Combatant Status----------------------------------");
+        System.out.println("\n  -------------------Combatant Status--------------------------");
         for (Combatant c : combatants) {
             String status;
-            if (c.isAlive){
+            if (c.isAlive()){
                 status = "[ALIVE] " + c.getStatusString();
             } else {
                 status = "[ELIMINATED] " + c.getName();
@@ -35,17 +35,24 @@ public class ConsoleBattleDisplay implements BattleDisplayUI{
 
     @Override
     public void displayTurnStart(Combatant combatant) {
+
         System.out.printf("%n --%s's turn --%n", combatant.getName());
     }
 
+    /*
+        Victory screen to show the statistics such as how many rounds, live remaining, items and
+     */
     @Override
     public void displayVictory(int playerHP, int maxHP, int totalRounds) {
         System.out.println("\n" + SEPARATOR);
         System.out.println("     VICTORY!  Congratulations, you defeated all enemies!   ");
         System.out.println(SEPARATOR);
-        System.out.printf("  Remaining HP : %d / %d%n", playerHP, maxHP);
-        System.out.printf("  Total Rounds : %d%n", totalRounds);
-        System.out.println(SEPARATOR + "\n");
+//        System.out.printf("  Remaining HP : %d / %d%n", playerHP, maxHP);
+//        System.out.printf("  Total Rounds : %d%n", totalRounds);
+//        System.out.println(SEPARATOR + "\n");
+
+        StringBuilder stats = new StringBuilder();
+
     }
 
     @Override
