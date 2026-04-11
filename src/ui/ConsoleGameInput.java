@@ -4,7 +4,6 @@ import src.action.*;
 import src.character.*;
 import src.items.*;
 import src.level.DifficultyLevel;
-import src.action.SpecialSkill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,7 +119,15 @@ public class ConsoleGameInput implements GameInputUI {
         for (int i = 0; i < inventory.size(); i++){
             System.out.printf("    [%d] %s - %s%n", i+1, inventory.get(i).getName(), inventory.get(i).getDescription());
         }
-        return readInt("  Enter choice (1-" + inventory.size() + "): ", 1, inventory.size())-1;
+
+        int backOption = inventory.size() + 1;
+        System.out.printf("    [%d] BACK to action selection%n", backOption);
+        int choice = readInt("  Enter choice (1-" + backOption + "): ", 1, backOption);
+        if (choice == backOption){
+            return -1;
+        }
+        return choice - 1;
+
     }
 
     @Override

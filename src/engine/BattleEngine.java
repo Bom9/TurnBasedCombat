@@ -102,29 +102,42 @@ public class BattleEngine {
         keep track of the CD
      */
     private PendingPlayerAction promptPlayerAction(){
+        // 1. Decrement happens ONCE, before the loop starts.
         player.decrementSkillCooldown();
 
-        List<Action> available = buildAvailableActions(player);
+        // 2. Start an infinite loop that only breaks when they finalize an action
+        while (true) {
+            List<Action> available = buildAvailableActions(player);
 
-        display.displayCombatLog("Choose your action for this round: ");
-        Action chosen = input.promptActionChoice(player, available);
+            display.displayCombatLog("Choose your action for this round: ");
+            Action chosen = input.promptActionChoice(player, available);
 
-        Combatant preSelectedTarget = null;
-        int preSelectedItemIndex = -1;
+            Combatant preSelectedTarget = null;
+            int preSelectedItemIndex = -1;
 
-        if(chosen instanceof BasicAttack){
-            preSelectedTarget = input.promptTargetSelection(aliveEnemiesAsCombatants());
-        }else if(chosen instanceof SpecialSkill skill && !skill.isAreaOfEffect()){
-            preSelectedTarget = input.promptTargetSelection(aliveEnemiesAsCombatants());
-        }else if(chosen instanceof UseItem){
-            preSelectedItemIndex = input.promptItemSelection(player);
-            Item peeked = player.getInventory().get(preSelectedItemIndex);
-            if(peeked instanceof PowerStone && !player.getSpecialSkill().isAreaOfEffect()){
+            if(chosen instanceof BasicAttack){
                 preSelectedTarget = input.promptTargetSelection(aliveEnemiesAsCombatants());
+                
+            }else if(chosen instanceof SpecialSkill skill && !skill.isAreaOfEffect()){
+                preSelectedTarget = input.promptTargetSelection(aliveEnemiesAsCombatants());
+                
+            }else if(chosen instanceof UseItem){
+                preSelectedItemIndex = input.promptItemSelection(player);
+
+                if (preSelectedItemIndex == -1){
+                    display.displayCombatLog("Cancelled item selection.");
+                    continue;
+                }
+
+                Item peeked = player.getInventory().get(preSelectedItemIndex);
+                if(peeked instanceof PowerStone && !player.getSpecialSkill().isAreaOfEffect()){
+                    preSelectedTarget = input.promptTargetSelection(aliveEnemiesAsCombatants());
+                }
             }
+            return new PendingPlayerAction(chosen, preSelectedTarget, preSelectedItemIndex);
         }
-        return new PendingPlayerAction(chosen, preSelectedTarget, preSelectedItemIndex);
     }
+
     private void checkAndSpawnBackup(){
         if(!backupSpawned && !backupEnemies.isEmpty() && activeEnemies.isEmpty()){
             activeEnemies.addAll(backupEnemies);
@@ -234,45 +247,44 @@ public class BattleEngine {
         return aliveEnemiesAsCombatants().stream().findFirst().orElse(null);
     }
 
-    private void executePlayerItem(Player player, int itemIndex, Combatant preSelectedTargets){
-        Item item = player.removeItem(itemIndex);
+   // Update the method signature to accept all three arguments!
+    private void executePlayerItem(Player player, int index, Combatant target) {
+        
+        Item item = player.removeItem(index);
 
-        if(item instanceof SmokeBomb){
+        if (item instanceof SmokeBomb) {
             item.use(player, List.of());
-            display.displayCombatLog(player.getName()+ " uses Smoke Bomb! Enemy attacks deal 0 damage for 2 turns.");
-        }else if(item instanceof Potion){
+            display.displayCombatLog(player.getName() + " uses Smoke Bomb! Enemy attacks deal 0 damage for 2 turns.");
+
+        } else if (item instanceof Potion) {
             int hpBefore = player.getHP();
             item.use(player, List.of());
-            display.displayCombatLog((player.getName() + " uses Potion! Healed "
-                +(player.getHP() - hpBefore) + " HP (HP: "+player.getHP()+"/"+player.getMaxHP()+")"));
-        }else if(item instanceof PowerStone){
-            display.displayCombatLog(player.getName() + "activates Power Stone - triggering "
-                + player.getSpecialSkill().getName()+"!");
+            display.displayCombatLog(player.getName() + " uses Potion! Healed "
+                    + (player.getHP() - hpBefore) + " HP (HP: " + player.getHP() + "/" + player.getMaxHP() + ").");
+
+        } else if (item instanceof PowerStone) {
+            display.displayCombatLog(player.getName() + " activates Power Stone – triggering " + player.getSpecialSkill().getName() + "!");
             SpecialSkill skill = player.getSpecialSkill();
-            if(skill.isAreaOfEffect()){
+            
+            if (skill.isAreaOfEffect()) {
                 item.use(player, aliveEnemiesAsCombatants());
-                int attackAfter = player.getAttack();
+                int atkAfter = player.getAtk();
                 display.displayCombatLog("  Arcane Blast hits all enemies!");
-                if(player instanceof Wizard w){
-                    display.displayCombatLog("  Wizard Attack is now "+attackAfter+"!");
+                if (player instanceof Wizard w) {
+                    display.displayCombatLog("  ★ Wizard ATK is now " + atkAfter + "!");
                 }
                 removeDeadEnemies();
-            }else{
-                Combatant target = resolveTarget(preSelectedTargets);
-
-                if(target != null){
-                    item.use(player, List.of(target));
-                    display.displayCombatLog(" "+player.getSpecialSkill().getName()+" hits "+target.getName()+"!");
-                    if(target.isStunned()){
-                        display.displayCombatLog("  "+target.getName()+" is STUNNED for 2 turns!");
-                    }
-                    if(!target.isAlive()){
-                        display.displayCombatLog("  "+target.getName()+" is ELIMINATED!");
-                        removeDeadEnemies();
-                    }
+            } else {
+                // We no longer prompt for target here, we just use the 'target' passed into the method!
+                item.use(player, List.of(target));
+                display.displayCombatLog("  " + player.getSpecialSkill().getName() + " hits " + target.getName() + "!");
+                if (target.isStunned()) {
+                    display.displayCombatLog("  ★ " + target.getName() + " is STUNNED for 2 turns!");
                 }
-
-
+                if (!target.isAlive()) {
+                    display.displayCombatLog("  " + target.getName() + " is ELIMINATED!");
+                    removeDeadEnemies();
+                }
             }
         }
     }
