@@ -273,7 +273,7 @@ public class BattleEngine {
                 
                 
                 if (player instanceof Wizard w) {
-                    display.displayCombatLog("  ★ Wizard ATK is now " + w.getAttack() + "!");
+                    display.displayCombatLog("  Wizard ATK is now " + w.getAttack() + "!");
                 }
                 
                 removeDeadEnemies();
