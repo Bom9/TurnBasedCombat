@@ -4,10 +4,12 @@ import src.action.*;
 import src.character.*;
 import src.level.*;
 import src.ui.*;
+import src.items.*;
 
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 /*
     the control class that manages the gaming logic, coordinating all other classes
@@ -25,7 +27,7 @@ public class BattleEngine {
     private boolean backupSpawned;
     private int round;
 
-    private BasicAttack basicAttack = new BasicAttack();
+    private BasicAttack basicAttackAction = new BasicAttack();
     private Defend defendAction = new Defend();
 
     public BattleEngine(TurnOrderStrategy turnOrderStrategy,
@@ -87,7 +89,123 @@ public class BattleEngine {
     }
 
     private void executePlayerTurn(Player player){
+        /*
+            handle the player turn process, including the monitoring of CD
+            CD decrement before action choice so the skill become available on the correct turn
+            eg. ShieldBash used in round 2 will have CD set to 3
+            decrement on each turn, when at round 5, CD become 0, and is available for use
+         */
+        player.decrementSkillCooldown();
 
+        List<Action> available = buildAvailableActions(player);
+        Action chosen = input.promptActionChoice(player, available);
+
+        if(chosen instanceof BasicAttack){
+            Combatant target = input.promptTargetSelection(aliveEnemiesAsCombatants());
+            int damage = Math.max(0, player.getAttack() - target.getEffectiveDef());
+            chosen.execute(player, List.of(target));
+            if(target.isAlive()){
+                display.displayCombatLog(player.getName() + " attacks " + target.getName()
+                + " for "+damage+" damage! (HP: " + target.getHP()+"/"+ target.getMaxHP()+")");
+            }else{
+                display.displayCombatLog(player.getName() + " attacks " + target.getName()
+                        + " for "+damage+" damage! " + target.getName() + " is ELIMINATED!");
+                removeDeadEnemies();
+            }
+        }else if(chosen instanceof Defend){
+            chosen.execute(player, List.of());
+            display.displayCombatLog(player.getName() + " takes a defensive stance (+10 DEFEND for 2 turns");
+        }else if(chosen instanceof SpecialSkill skill){
+            executePlayerSpecialSkill(player, skill);
+            player.triggerSkillCooldown();
+        }else if(chosen instanceof UseItem){
+            executePlayerItem(player);
+        }
+    }
+
+    private void executePlayerItem(Player player){
+        int index = input.promptItemSelection(player);
+        Item item = player.removeItem(index);
+
+        if(item instanceof SmokeBomb){
+            item
+        }
+    }
+
+    private void executePlayerSpecialSkill(Player player, SpecialSkill skill){
+        //only two condition, targeting area or single target
+        if(skill.isAreaOfEffect()){
+            List<Combatant> targets = aliveEnemiesAsCombatants();
+            int attackBefore = player.getAttack();
+            skill.execute(player, targets);
+            display.displayCombatLog(player.getName() + " unleashes "+ skill.getName() + " on All enemies!");
+            for(Combatant c: targets){
+                int damage = Math.max(0, attackBefore - c.getEffectiveDef());
+                if(c.isAlive()){
+                    display.displayCombatLog(c.getName()+ " takes "+damage
+                    + " damage (HP: " + c.getHP()+"/"+c.getName()+" takes "+damage);
+                }else{
+                    display.displayCombatLog(c.getName()+ " takes "+damage
+                            + " damage - ELIMINATED!");
+                    removeDeadEnemies();
+                }
+            }
+            if(player instanceof Wizard w && w.getAttack() > attackBefore){
+                display.displayCombatLog("  Wizard Attack boosted to "+w.getAttack()+"!");
+            }
+
+        }else{
+            //single target
+            Combatant target = input.promptTargetSelection(aliveEnemiesAsCombatants());
+            int damage = Math.max(0, player.getAttack() - target.getEffectiveDef());
+            skill.execute(player, List.of(target));
+            display.displayCombatLog(player.getName()+ " uses "+skill.getName()
+            + " on "+target.getName() + " for "+ damage + " damage! ");
+            if(target.isStunned()){
+                display.displayCombatLog("  "+target.getName()+" is STUNNED for 2 turns!");
+            }
+            if(!target.isAlive()){
+                display.displayCombatLog("  "+ target.getName()+" is ELIMINATED!");
+                removeDeadEnemies();
+            }
+        }
+    }
+
+    private void removeDeadEnemies(){
+        activeEnemies.removeIf(e-> ! e.isAlive());
+    }
+    private List<Combatant> aliveEnemiesAsCombatants(){
+        //modern java stream API to filter out alive enemies
+        return activeEnemies.stream().filter(Enemy::isAlive).collect(Collectors.toList());
+    }
+    private List<Action> buildAvailableActions(Player player){
+        List<Action> actions = new ArrayList<>();
+        actions.add(basicAttackAction);
+        actions.add(defendAction);
+        if(player.hasItems()){
+            actions.add(new UseItem());
+        }
+        /*
+            only add special skill as selectable option when it is ready
+            when on cooldown it is shown as non-numbered display
+            so the valid input range does not include it
+         */
+        if(player.isSkillReady()){
+            actions.add(player.getSpecialSkill());
+        }
+        return actions;
+    }
+
+
+    private static class UseItem implements Action{
+        @Override
+        public void execute(src.character.Combatant c, List<src.character.Combatant> t){}
+        @Override
+        public String getName(){return "Use Item";}
+        @Override
+        public String getDescription(){
+            return "Use a single-use item from your inventory. ";
+        }
     }
 
     private List<Combatant> buildAllCombatants(){
