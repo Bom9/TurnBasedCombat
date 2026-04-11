@@ -7,7 +7,7 @@ public class Wizard extends Player{
     public static final int BASE_ATK = 50;
     public static final int BASE_DEF = 10;
     public static final int BASE_SPD = 20;
-
+    public static final String SPECIAL_SKILL = "Arcane Blast";
     private int atkBonus = 0;
 
     public Wizard(String name){

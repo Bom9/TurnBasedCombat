@@ -135,7 +135,7 @@ public class BattleEngine {
                     +" for "+damage + " damage! "+ player.getName()+" is DEFEATED!");
             }else{
                 display.displayCombatLog(enemy.getName() + " attacks " + player.getName()
-                    + " for "+ damage + " damage! (HP: "+player.getHP()+"/"+player.getMaxHP()+")");
+                    + " for "+ damage + " damage! ("+player.getName()+"'s HP: "+player.getHP()+"/"+player.getMaxHP()+")");
             }
         }
     }
@@ -158,7 +158,7 @@ public class BattleEngine {
             chosen.execute(player, List.of(target));
             if(target.isAlive()){
                 display.displayCombatLog(player.getName() + " attacks " + target.getName()
-                + " for "+damage+" damage! (HP: " + target.getHP()+"/"+ target.getMaxHP()+")");
+                + " for "+damage+" damage! ("+target.getName()+"'s HP: " + target.getHP()+"/"+ target.getMaxHP()+")");
             }else{
                 display.displayCombatLog(player.getName() + " attacks " + target.getName()
                         + " for "+damage+" damage! " + target.getName() + " is ELIMINATED!");
@@ -166,7 +166,7 @@ public class BattleEngine {
             }
         }else if(chosen instanceof Defend){
             chosen.execute(player, List.of());
-            display.displayCombatLog(player.getName() + " takes a defensive stance (+10 DEFEND for 2 turns");
+            display.displayCombatLog(player.getName() + " takes a defensive stance (+10 DEFEND for 2 turns)");
         }else if(chosen instanceof SpecialSkill skill){
             executePlayerSpecialSkill(player, skill);
             player.triggerSkillCooldown();

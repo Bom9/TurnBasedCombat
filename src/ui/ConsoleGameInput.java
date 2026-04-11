@@ -24,10 +24,10 @@ public class ConsoleGameInput implements GameInputUI {
         System.out.println("\n====================================================");
         System.out.println("             CHOOSE YOUR CHARACTER CLASS              ");
         System.out.println("=====================================================\n");
-        System.out.printf("  [1] Warrior  │ HP:%-4d ATK:%-3d DEF:%-3d SPD:%-3d │ Shield Bash%n",
-                Warrior.BASE_HP, Warrior.BASE_ATK, Warrior.BASE_DEF, Warrior.BASE_SPD);
-        System.out.printf("  [2] Wizard   │ HP:%-4d ATK:%-3d DEF:%-3d SPD:%-3d │ Arcane Blast%n",
-                Wizard.BASE_HP, Wizard.BASE_ATK, Wizard.BASE_DEF, Wizard.BASE_SPD);
+        System.out.printf("  [1] Warrior  │ HP: %-4d ATTACK: %-3d DEFEND: %-3d SPEED: %-3d │ Special Skill: %s%n",
+                Warrior.BASE_HP, Warrior.BASE_ATK, Warrior.BASE_DEF, Warrior.BASE_SPD, Warrior.SPECIAL_SKILL);
+        System.out.printf("  [2] Wizard   │ HP: %-4d ATTACK: %-3d DEFEND: %-3d SPEED: %-3d │ Special Skill: %s%n",
+                Wizard.BASE_HP, Wizard.BASE_ATK, Wizard.BASE_DEF, Wizard.BASE_SPD, Wizard.SPECIAL_SKILL);
         System.out.println();
 
         int choice = readInt("Enter choice (1-2):", 1, 2);
@@ -63,9 +63,9 @@ public class ConsoleGameInput implements GameInputUI {
         System.out.println("  [3] Hard   – 2 Goblins         | Backup: 1 Goblin + 2 Wolves");
 
         System.out.println("\n  Enemy Attributes:");
-        System.out.printf("    Goblin │ HP:%-3d ATK:%-3d DEF:%-3d SPD:%-3d%n",
+        System.out.printf("    Goblin │ HP: %-3d ATTACK: %-3d DEFEND: %-3d SPEED: %-3d%n",
                 Goblin.BASE_HP, Goblin.BASE_ATK, Goblin.BASE_DEF, Goblin.BASE_SPD);
-        System.out.printf("    Wolf   │ HP:%-3d ATK:%-3d DEF:%-3d SPD:%-3d%n",
+        System.out.printf("    Wolf   │ HP: %-3d ATTACK: %-3d DEFEND: %-3d SPEED: %-3d%n",
                 Wolf.BASE_HP, Wolf.BASE_ATK, Wolf.BASE_DEF, Wolf.BASE_SPD);
         System.out.println();
 
@@ -83,7 +83,7 @@ public class ConsoleGameInput implements GameInputUI {
         for (int i = 0; i < availableActions.size(); i++){
             Action a = availableActions.get(i);
             String extra = (a instanceof SpecialSkill) ? " [READY]": "";
-            System.out.printf("    [%d] %s%s%n", i, i+1, a.getName(), extra);
+            System.out.printf("    [%s] %s %n", i+1, a.getName(), extra);
         }
 
         if (!player.isSkillReady()){

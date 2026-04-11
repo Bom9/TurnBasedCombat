@@ -70,10 +70,10 @@ public abstract class Player extends Combatant {
         StringBuilder sb = new StringBuilder();
         sb.append(name)
           .append(" | HP: ").append(hp).append("/").append(maxHP)
-          .append(" | ATK: ").append(attack)
-          .append(" | DEF: ").append(defend)
+          .append(" | ATTACK: ").append(attack)
+          .append(" | DEFEND: ").append(defend)
           .append(" (effective: ").append(getEffectiveDef()).append(")")
-          .append(" | SPD: ").append(speed)
+          .append(" | SPEED: ").append(speed)
           .append(" | Skill CD: ").append(skillCooldown);
         if (!activeEffects.isEmpty()) {
             sb.append(" | Effects: ");
@@ -81,7 +81,7 @@ public abstract class Player extends Combatant {
         }
         if (!inventory.isEmpty()) {
             sb.append(" | Items: ");
-            inventory.forEach(i -> sb.append(i.getName()).append(" "));
+            inventory.forEach(i -> sb.append(i.getName()).append(", "));
         }
         return sb.toString();
     }
