@@ -119,7 +119,7 @@ public class ConsoleGameInput implements GameInputUI {
         for (int i = 0; i < inventory.size(); i++){
             System.out.printf("    [%d] %s - %s%n", i+1, inventory.get(i).getName(), inventory.get(i).getDescription());
         }
-
+        // BACK option to return to menu
         int backOption = inventory.size() + 1;
         System.out.printf("    [%d] BACK to action selection%n", backOption);
         int choice = readInt("  Enter choice (1-" + backOption + "): ", 1, backOption);
