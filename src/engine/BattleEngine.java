@@ -248,6 +248,7 @@ public class BattleEngine {
     }
 
    // Update the method signature to accept all three arguments!
+    // Update the method signature to accept all three arguments!
     private void executePlayerItem(Player player, int index, Combatant target) {
         
         Item item = player.removeItem(index);
@@ -268,11 +269,14 @@ public class BattleEngine {
             
             if (skill.isAreaOfEffect()) {
                 item.use(player, aliveEnemiesAsCombatants());
-                int atkAfter = player.getAtk();
+                
                 display.displayCombatLog("  Arcane Blast hits all enemies!");
+                
+                // THE FIX: We removed player.getAtk() and moved it directly onto the Wizard here:
                 if (player instanceof Wizard w) {
-                    display.displayCombatLog("  ★ Wizard ATK is now " + atkAfter + "!");
+                    display.displayCombatLog("  ★ Wizard ATK is now " + w.getAttack() + "!");
                 }
+                
                 removeDeadEnemies();
             } else {
                 // We no longer prompt for target here, we just use the 'target' passed into the method!
