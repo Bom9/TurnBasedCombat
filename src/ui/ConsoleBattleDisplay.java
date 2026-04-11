@@ -1,7 +1,11 @@
 package src.ui;
 import src.character.Combatant;
 import src.character.Player;
+import src.items.Item;
+
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ConsoleBattleDisplay implements BattleDisplayUI{
@@ -43,7 +47,7 @@ public class ConsoleBattleDisplay implements BattleDisplayUI{
         Victory screen to show the statistics such as how many rounds, live remaining, items and
      */
     @Override
-    public void displayVictory(int playerHP, int maxHP, int totalRounds) {
+    public void displayVictory(String playerName, int playerAttack, int playerHP, int maxHP, int totalRounds, List<Item> initialItems, List<Item> remainingItems) {
         System.out.println("\n" + SEPARATOR);
         System.out.println("     VICTORY!  Congratulations, you defeated all enemies!   ");
         System.out.println(SEPARATOR);
@@ -51,7 +55,35 @@ public class ConsoleBattleDisplay implements BattleDisplayUI{
 //        System.out.printf("  Total Rounds : %d%n", totalRounds);
 //        System.out.println(SEPARATOR + "\n");
 
+        // printing the basic statistic for victory page
         StringBuilder stats = new StringBuilder();
+        stats.append("Remaining HP: ").append(playerHP).append(" / ").append(maxHP);
+        stats.append(" | Total Rounds: ").append(totalRounds);
+        if(playerName.equals("Wizard"))
+            stats.append(" | Final wizard Attack: ").append(playerAttack);
+
+        /*
+            following three for loop if to for printing the complicated tracked item usage
+            first for loop to map remaining items
+         */
+        Map<String, Integer> initialCounts = new LinkedHashMap<>();
+        for(Item item: remainingItems)
+            initialCounts.merge(item.getName(), 1, Integer::sum);
+
+        //count the available amount in inventory
+        Map<String, Integer> remainingCounts = new LinkedHashMap<>();
+        for(Item item: remainingItems)
+            remainingCounts.merge(item.getName(), 1, Integer::sum);
+
+        //append every originally chosen item type, remaining defaults to 0 if used
+        for(String itemName: initialCounts.keySet()){
+            int left = remainingCounts.getOrDefault(itemName, 0);
+            stats.append(" | \nRemaining ").append(itemName).append(": ").append(left);
+        }
+
+        System.out.println(stats);
+        System.out.println();
+        System.out.println(SEPARATOR + "\n");
 
     }
 

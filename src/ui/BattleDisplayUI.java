@@ -3,6 +3,7 @@ package src.ui;
 import java.util.List;
 import src.character.Combatant;
 import src.character.Player;
+import src.items.Item;
 
 public interface BattleDisplayUI {
     //Print line to combat log//
@@ -16,7 +17,7 @@ public interface BattleDisplayUI {
 
     void displayTurnStart(Combatant combatant);
 
-    void displayVictory(int playerHP, int maxHP, int totalRounds);
+    void displayVictory(String playerName, int playerAttack, int playerHP, int maxHP, int totalRounds, List<Item> initialItems, List<Item> remainingItems);
 
     void displayDefeat(int enemiesRemaining, int totalRounds);
 
