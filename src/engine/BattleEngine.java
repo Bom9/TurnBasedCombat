@@ -85,13 +85,38 @@ public class BattleEngine {
                 }else if(combatant instanceof Enemy e){
                     executeEnemyTurn(e);
                 }
-
+                //decrese non stun effect duration after combatants action
                 combatant.decrementNonStunEffects();
 
-
+                //during mid round, check if game has ended by looking at player.isAlive()
+                if(checkGameOver())
+                    return evaluateOutcome(); //return true (win) or false (lose)
             }
 
+            //end of round display
+            display.displayCombatantStatus(buildAllCombatants());
+            if(checkGameOver())
+                return evaluateOutcome();
         }
+    }
+
+    private boolean evaluateOutcome(){
+        long remaining = activeEnemies.stream().filter(Enemy::isAlive).count()+ backupEnemies.size();
+        if(!player.isAlive()){
+            //display player defeated page
+            display.displayDefeat((int) remaining, round);
+            return false;
+        }else{
+            display.displayVictory(player.getName(), player.getAttack(), player.getHP(), player.getMaxHP(), round,
+                    player.getInitialInventory(), player.getInventory());
+            return true;
+        }
+    }
+
+    private boolean checkGameOver(){
+        if(!player.isAlive()) return true;
+        boolean enemiesRemain = !activeEnemies.isEmpty() || !backupEnemies.isEmpty();
+        return !enemiesRemain;
     }
 
     private void executeEnemyTurn(Enemy enemy){
