@@ -81,11 +81,21 @@ public class BattleEngine {
 
                 //combatant not stunned, then proceed to execute the turn
                 if(combatant instanceof Player p){
-
+                    executePlayerTurn(p);
+                }else if(combatant instanceof Enemy e){
+                    executeEnemyTurn(e);
                 }
+
+                combatant.decrementNonStunEffects();
+
+
             }
 
         }
+    }
+
+    private void executeEnemyTurn(Enemy enemy){
+
     }
 
     private void executePlayerTurn(Player player){
@@ -128,7 +138,37 @@ public class BattleEngine {
         Item item = player.removeItem(index);
 
         if(item instanceof SmokeBomb){
-            item
+            item.use(player, List.of());
+            display.displayCombatLog(player.getName()+ " uses Smoke Bomb! Enemy attacks deal 0 damage for 2 turns.");
+        }else if(item instanceof Potion){
+            int hpBefore = player.getHP();
+            item.use(player, List.of());
+            display.displayCombatLog((player.getName() + " uses Potion! Healed "
+                +(player.getHP() - hpBefore) + " HP (HP: "+player.getHP()+"/"+player.getMaxHP()+")"));
+        }else if(item instanceof PowerStone){
+            display.displayCombatLog(player.getName() + "activates Power Stone - triggering "
+                + player.getSpecialSkill().getName()+"!");
+            SpecialSkill skill = player.getSpecialSkill();
+            if(skill.isAreaOfEffect()){
+                item.use(player, aliveEnemiesAsCombatants());
+                int attackAfter = player.getAttack();
+                display.displayCombatLog("  Arcane Blast hits all enemies!");
+                if(player instanceof Wizard w){
+                    display.displayCombatLog("  Wizard Attack is now "+attackAfter+"!");
+                }
+                removeDeadEnemies();
+            }else{
+                Combatant target = input.promptTargetSelection(aliveEnemiesAsCombatants());
+                item.use(player, List.of(target));
+                display.displayCombatLog(" "+player.getSpecialSkill().getName()+" hits "+target.getName()+"!");
+                if(target.isStunned()){
+                    display.displayCombatLog("  "+target.getName()+" is STUNNED for 2 turns!");
+                }
+                if(!target.isAlive()){
+                    display.displayCombatLog("  "+target.getName()+" is ELIMINATED!");
+                    removeDeadEnemies();
+                }
+            }
         }
     }
 
