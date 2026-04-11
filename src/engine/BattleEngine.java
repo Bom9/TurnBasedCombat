@@ -95,7 +95,24 @@ public class BattleEngine {
     }
 
     private void executeEnemyTurn(Enemy enemy){
+        Action action = enemy.decideAndGetAction(List.of(player));
 
+        boolean isProtected = player.isProtectedFromAttack();
+        action.execute(enemy, List.of(player));
+
+        if(isProtected){
+            display.displayCombatLog(enemy.getName() + " attacks "+player.getName()
+                + " - blocked by smoke Bomb! (0 damage)");
+        }else{
+            int damage = Math.max(0, enemy.getAttack() - player.getEffectiveDef());
+            if(!player.isAlive()){
+                display.displayCombatLog(enemy.getName() + " attacks " + player.getName()
+                    +" for "+damage + " damage! "+ player.getName()+" is DEFEATED!");
+            }else{
+                display.displayCombatLog(enemy.getName() + " attacks " + player.getName()
+                    + " for "+ damage + " damage! (HP: "+player.getHP()+"/"+player.getMaxHP()+")");
+            }
+        }
     }
 
     private void executePlayerTurn(Player player){
