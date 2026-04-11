@@ -1,7 +1,6 @@
 package src.action;
 
 import src.effects.Stun;
-import src.character.Enemy;
 import src.character.Combatant;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public void execute(Combatant attacker, List<Combatant> targets){
     if (!target.isAlive()) 
         return;
 
-    int damage = Math.max(0, attacker.getAtk() - target.getEffectiveDef());
+    int damage = Math.max(0, attacker.getAttack() - target.getEffectiveDef());
     target.takeDamage(damage);
     
     if (target.isAlive()){

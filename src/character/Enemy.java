@@ -30,9 +30,9 @@ public abstract class Enemy extends Combatant {
         StringBuilder sb = new StringBuilder();
         sb.append(name)
           .append(" | HP: ").append(hp).append("/").append(maxHP)
-          .append(" | ATK: ").append(atk)
-          .append(" | DEF: ").append(def)
-          .append(" | SPD: ").append(spd);
+          .append(" | ATK: ").append(attack)
+          .append(" | DEF: ").append(defend)
+          .append(" | SPD: ").append(speed);
         if (!isAlive) {
             sb.append(" [ELIMINATED]");
         } else if (isStunned()) {

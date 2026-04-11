@@ -13,7 +13,7 @@ public class ArcaneBlast extends SpecialSkill{
 		for (Combatant target : targets){
             if (!target.isAlive()) continue;
 
-            int damage = Math.max(0, attacker.getAtk() - target.getEffectiveDef());
+            int damage = Math.max(0, attacker.getAttack() - target.getEffectiveDef());
             target.takeDamage(damage);
 			
 			if (!target.isAlive() && attacker instanceof Wizard){

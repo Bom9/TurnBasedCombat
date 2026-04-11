@@ -51,7 +51,7 @@ public class GameSetup {
         List<Item> items = inputUI.promptItemSelection();
         items.forEach(chosenPlayer::addItem);
 
-        chosenDifficulty = difficulty
+        chosenDifficulty = difficulty;
         spawnConfig = levelManager.buildSpawnConfig(chosenDifficulty);
 
         System.out.println("\n Setup completed! Game starting.... Good Luck!");

@@ -19,7 +19,7 @@ public class Wizard extends Player{
     }
     public void addAtkBonus(int amount){
         atkBonus += amount;
-        atk += amount;
+        attack += amount;
     }
 
     public int getAtkBonus(){

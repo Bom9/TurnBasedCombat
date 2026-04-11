@@ -19,7 +19,7 @@ public class BasicAttack implements Action {
 			return;
 		}	
 
-		int damage = Math.max(0, attacker.getAtk() - target.getEffectiveDef());
+		int damage = Math.max(0, attacker.getAttack() - target.getEffectiveDef());
         target.takeDamage(damage);
 	}
 

@@ -70,10 +70,10 @@ public abstract class Player extends Combatant {
         StringBuilder sb = new StringBuilder();
         sb.append(name)
           .append(" | HP: ").append(hp).append("/").append(maxHP)
-          .append(" | ATK: ").append(atk)
-          .append(" | DEF: ").append(def)
+          .append(" | ATK: ").append(attack)
+          .append(" | DEF: ").append(defend)
           .append(" (effective: ").append(getEffectiveDef()).append(")")
-          .append(" | SPD: ").append(spd)
+          .append(" | SPD: ").append(speed)
           .append(" | Skill CD: ").append(skillCooldown);
         if (!activeEffects.isEmpty()) {
             sb.append(" | Effects: ");

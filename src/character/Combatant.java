@@ -1,6 +1,5 @@
 package src.character;
 
-import src.items.Item;
 import src.effects.StatusEffect;
 
 import java.util.ArrayList;
@@ -11,9 +10,9 @@ public abstract class Combatant {
     protected final String name;
     protected final int maxHP;
     protected int hp;
-    protected int atk;
-    protected int def;
-    protected final int spd;
+    protected int attack;
+    protected int defend;
+    protected final int speed;
     protected boolean isAlive;
     protected final List<StatusEffect> activeEffects;
 
@@ -21,9 +20,9 @@ public abstract class Combatant {
         this.name = name;
         this.maxHP = maxHP;
         this.hp = maxHP;
-        this.atk = atk;
-        this.def = def;
-        this.spd = spd;
+        this.attack = atk;
+        this.defend = def;
+        this.speed = spd;
         this.isAlive = true;
         this.activeEffects = new ArrayList<>();
     }
@@ -79,7 +78,7 @@ public abstract class Combatant {
         int bonus = activeEffects.stream()
         .mapToInt(StatusEffect::getDefenseBonus)
         .sum();
-        return def + bonus;
+        return defend + bonus;
     }
     public boolean isStunned() {
         return activeEffects.stream().anyMatch(StatusEffect::isTurnBlocking);
@@ -88,13 +87,13 @@ public abstract class Combatant {
     public String getName() {return name;}
     public int getMaxHP(){ return maxHP;}
     public int getHP(){ return hp;}
-    public int getAtk(){ return atk;}
-    public int getDef(){ return def;}
-    public int getSpd(){ return spd;}
+    public int getAttack(){ return attack;}
+    public int getDefend(){ return defend;}
+    public int getSpeed(){ return speed;}
     public boolean isAlive(){ return isAlive;}
     public List<StatusEffect> getActiveEffects(){ return activeEffects; }
 
-    public void setAtk(int atk) { this.atk = atk; }
+    public void setAttack(int attack) { this.attack = attack; }
 
     public abstract String getStatusString();
 
