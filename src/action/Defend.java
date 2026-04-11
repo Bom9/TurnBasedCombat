@@ -1,7 +1,8 @@
 package src.action;
 
-import effect.DefenseBuff;
-import entity.combatant;
+import src.effects.DefenseBuff;
+import src.character.Combatant;
+import java.util.List;
 
 public class Defend implements Action{
 	@Override

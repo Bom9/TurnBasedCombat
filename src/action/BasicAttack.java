@@ -1,5 +1,10 @@
 package src.action;
 
+import src.character.Combatant;
+import src.character.Enemy;
+
+import java.util.List;
+
 public class BasicAttack implements Action {
 	@Override
 	public void execute(Combatant attacker, List<Combatant> targets){

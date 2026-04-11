@@ -1,8 +1,9 @@
 package src.action;
 
-import effect.Stun;
-import entity.Enemy;
-import entity.Combatant;
+import src.effects.Stun;
+import src.character.Enemy;
+import src.character.Combatant;
+import java.util.List;
 
 public class ShieldBash extends SpecialSkill{
 

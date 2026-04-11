@@ -4,12 +4,12 @@ package src.effects;
  /* DefenseBoost increases the combatant's defense by 10
  for 2 turns. */
  
-public class DefenseBoost extends StatusEffect {
+public class DefenseBuff extends StatusEffect {
 
-    private static final int BONUS = 10;
-    private static final int DURATION = 2;
+    public static final int BONUS = 10;
+    public static final int DURATION = 2;
 
-    public DefenseBoost() {
+    public DefenseBuff() {
         super("Defense Boost", DURATION);
     }
 

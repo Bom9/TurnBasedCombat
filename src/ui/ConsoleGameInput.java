@@ -112,14 +112,14 @@ public class ConsoleGameInput {
         return enemies.get(choice - 1);
     }
 
-    public int promptItemSelection(Player player) {
-        List<item.item> inventory = player.getInventory();
-        System.out,println("\n Select item to use:");
-        for (int i = 0; i < inventory.size(); i++){
-            System.out.printf("    [%d] %s - %s%n", i+1, inventory.get(i).getName(), inventory.get(i).getDescription());
-        }
-        return readInt("  Enter choice (1-" + inventory.size() + "): ", 1, inventory.size())-1;
-    }
+//    public int promptItemSelection(Player player) {
+//        List<item.item> inventory = player.getInventory();
+//        System.out,println("\n Select item to use:");
+//        for (int i = 0; i < inventory.size(); i++){
+//            System.out.printf("    [%d] %s - %s%n", i+1, inventory.get(i).getName(), inventory.get(i).getDescription());
+//        }
+//        return readInt("  Enter choice (1-" + inventory.size() + "): ", 1, inventory.size())-1;
+//    }
 
     @Override
     public int promptPostGameMenu() {

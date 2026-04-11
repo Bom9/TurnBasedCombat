@@ -1,13 +1,13 @@
 package src.action;
 
-import src.entity.Combatant;
-import src.entity.Wizard;
+import src.character.Combatant;
+import src.character.Wizard;
 import java.util.List;
 
 public class ArcaneBlast extends SpecialSkill{
 
 	@Override
-	public void execute(Combatant user, List<Combatant> targets){
+	public void execute(Combatant attacker, List<Combatant> targets){
 		if (targets == null || targets.isEmpty()) return;
 
 		for (Combatant target : targets){
