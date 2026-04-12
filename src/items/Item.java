@@ -16,10 +16,7 @@ public abstract class Item {
 
     
      //Activates the item's effect.
-     
-     /* @param user The combatant using the item.
-      @param targets Additional targets needed by some items.
-     */
+
     public abstract void use(Combatant user, List<Combatant> targets);
 
     public String getName() {
