@@ -144,10 +144,11 @@ public class BattleEngine {
             activeEnemies.addAll(backupEnemies);
             backupEnemies.clear();
             backupSpawned = true;
-            display.displayCombatLog("Surprise!\nBACKUP ENEMIES SPAWN! "+activeEnemies.size() +" new enemies enter the arena!");
+            display.displayCombatLog("Surprise! BACKUP ENEMIES SPAWN! "+activeEnemies.size() +" new enemies enter the arena!");
             activeEnemies.forEach(e ->
-                    display.displayCombatLog(" + "+e.getName()+"(HP: "+e.getHP()+"/"+e.getMaxHP()+")")
+                    display.displayCombatLog(" + "+e.getName()+" (HP: "+e.getHP()+"/"+e.getMaxHP()+")")
             );
+            System.out.println();
         }
     }
 
