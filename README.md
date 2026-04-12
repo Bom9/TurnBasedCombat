@@ -94,7 +94,6 @@ This project was a good excuse to actually apply SOLID principles rather than ju
 | GitHub          | Role                   |
 |-----------------|------------------------|
 | Bom9            | Engine and integration |
-|
-SusanosHermanes             | UI                     |
+|SusanosHermanes  | UI                     |
 | yzzzap          | Action and Characters  |
 | Samrithi Satish | Items and effects      |
