@@ -22,7 +22,7 @@ public class LevelManager {
         List<Enemy> initial = new ArrayList<>();
         initial.add(new Goblin("Goblin A"));
         initial.add(new Goblin("Goblin B"));
-        initial.add(new Goblin("Goblin B"));
+        initial.add(new Goblin("Goblin C"));
         return new SpawnConfig(initial, Collections.emptyList());
     }
     protected SpawnConfig buildMedium(){

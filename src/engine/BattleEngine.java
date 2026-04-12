@@ -273,7 +273,7 @@ public class BattleEngine {
                 
                 
                 if (player instanceof Wizard w) {
-                    display.displayCombatLog("  Wizard ATK is now " + w.getAttack() + "!");
+                    display.displayCombatLog("  Wizard ATTACK is now " + w.getAttack() + "!");
                 }
                 
                 removeDeadEnemies();
@@ -282,7 +282,7 @@ public class BattleEngine {
                 item.use(player, List.of(target));
                 display.displayCombatLog("  " + player.getSpecialSkill().getName() + " hits " + target.getName() + "!");
                 if (target.isStunned()) {
-                    display.displayCombatLog("  ★ " + target.getName() + " is STUNNED for 2 turns!");
+                    display.displayCombatLog("  " + target.getName() + " is STUNNED for 2 turns!");
                 }
                 if (!target.isAlive()) {
                     display.displayCombatLog("  " + target.getName() + " is ELIMINATED!");
